@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+    <memory_region
+        name="shared_buffer"
+        size="0x1000"
+        page_size="0x1000" />
+
+    <protection_domain name="master" priority="150">
+        <program_image path="master.elf" />
+        <map
+            mr="shared_buffer"
+            vaddr="0x4000000"
+            perms="rw"
+            cached="true"
+            setvar_vaddr="shared_buffer_vaddr" />
+    </protection_domain>
+
+    <protection_domain name="driver" priority="149">
+        <program_image path="driver.elf" />
+        <map
+            mr="shared_buffer"
+            vaddr="0x4000000"
+            perms="r"
+            cached="true"
+            setvar_vaddr="shared_buffer_vaddr" />
+    </protection_domain>
+
+    <channel>
+        <end pd="master" id="1" />
+        <end pd="driver" id="1" />
+    </channel>
+</system>
