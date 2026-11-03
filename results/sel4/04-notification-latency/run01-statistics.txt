@@ -1,0 +1,47 @@
+EXPERIMENT 04 - RUN 01 ANALYSIS
+Log: results/sel4/04-notification-latency/full-run01-raw.log
+Frequency: 62500000 Hz
+P99 method: nearest rank
+Baseline subtraction: none
+
+Timestamp baseline: 1000 samples
+  Minimum : 0.032 us
+  Mean    : 0.105 us
+  Median  : 0.080 us
+  P99     : 0.128 us
+  Maximum : 5.664 us
+  >50 us : 0
+  >100 us : 0
+  >200 us : 0
+
+Payload 64 bytes: 10000 samples
+  Minimum : 21.456 us
+  Mean    : 35.072 us
+  Median  : 32.400 us
+  P99     : 69.792 us
+  Maximum : 98.912 us
+  >50 us : 511
+  >100 us : 0
+  >200 us : 0
+
+Payload 512 bytes: 10000 samples
+  Minimum : 23.008 us
+  Mean    : 37.700 us
+  Median  : 36.208 us
+  P99     : 70.672 us
+  Maximum : 142.512 us
+  >50 us : 867
+  >100 us : 1
+  >200 us : 0
+
+Payload 1518 bytes: 10000 samples
+  Minimum : 25.664 us
+  Mean    : 38.677 us
+  Median  : 35.536 us
+  P99     : 68.160 us
+  Maximum : 97.424 us
+  >50 us : 1644
+  >100 us : 0
+  >200 us : 0
+
+ANALYSIS: PASS - all expected samples verified
