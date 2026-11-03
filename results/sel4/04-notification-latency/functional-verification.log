@@ -1,0 +1,71 @@
+Experiment: 04 - Notification Functional Verification
+Date: 2026-11-03T14:22:10+05:30
+Microkit SDK: 2.4.0
+Board: qemu_virt_aarch64
+QEMU: QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+===== QEMU OUTPUT =====
+make: Entering directory '/home/prabash/sel4-research/ethercat-sel4/tests/sel4/04-notification-latency'
+qemu-system-aarch64 \
+    -machine virt,virtualization=on \
+    -cpu cortex-a53 \
+    -serial mon:stdio \
+    -device loader,file=build/loader.img,addr=0x70000000,cpu-num=0 \
+    -m size=2G \
+    -nographic
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b9000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x0000000000261000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x0000000000002020   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602ab000   size: 0x000000000000c000   offset: 0x00000000002892c0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b8000   size: 0x00000000000001f8   offset: 0x00000000002952c0   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b9000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+MASTER: initialized
+MASTER: sending 64 bytes
+DRIVER: initialized
+DRIVER: PASS - 64 bytes
+MASTER: received ACK
+MASTER: sending 512 bytes
+DRIVER: PASS - 512 bytes
+MASTER: received ACK
+MASTER: sending 1518 bytes
+DRIVER: PASS - 1518 bytes
+MASTER: received ACK
+MASTER: ALL 3 TRANSFERS ACKNOWLEDGED
+qemu-system-aarch64: terminating on signal 15 from pid 5691 (make)

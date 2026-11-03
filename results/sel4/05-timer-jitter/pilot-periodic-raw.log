@@ -1,0 +1,112 @@
+make: Entering directory '/home/prabash/sel4-research/ethercat-sel4/tests/sel4/05-timer-jitter/pilot'
+qemu-system-aarch64 \
+    -machine virt,virtualization=on \
+    -cpu cortex-a53 \
+    -serial mon:stdio \
+    -device loader,file=build/loader.img,addr=0x70000000,cpu-num=0 \
+    -m size=2G \
+    -nographic
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b5000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x000000000025d000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x00000000000014d8   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602aa000   size: 0x0000000000009000   offset: 0x0000000000288778   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b4000   size: 0x00000000000001f8   offset: 0x0000000000291778   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b5000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+PILOT: initialized
+PILOT: starting 1 ms timer
+PILOT: COMPLETE
+PILOT: period_ticks=62500
+PILOT: skipped_periods=117
+PILOT: early_interrupts=0
+PILOT_CSV_BEGIN
+sample,interval_ticks,lateness_ticks,skipped_periods
+1,187674,129399,2
+2,186982,128881,2
+3,187635,129016,2
+4,187342,128858,2
+5,187794,129152,2
+6,187013,128665,2
+7,187510,128675,2
+8,187177,128352,2
+9,187745,128597,2
+10,187062,128159,2
+11,188516,129175,2
+12,186765,128440,2
+13,188849,129789,2
+14,186703,128992,2
+15,187620,129112,2
+16,187471,129083,2
+17,187373,128956,2
+18,187494,128950,2
+19,187742,129192,2
+20,187675,129367,2
+21,187302,129169,2
+22,187570,129239,2
+23,187477,129216,2
+24,187455,129171,2
+25,186594,128265,2
+26,187547,128312,2
+27,188018,128830,2
+28,187250,128580,2
+29,187568,128648,2
+30,188645,129793,2
+31,186833,129126,2
+32,187993,129619,2
+33,186830,128949,2
+34,187938,129387,2
+35,187224,129111,2
+36,188551,130162,2
+37,186836,129498,2
+38,187834,129832,2
+39,186213,128545,2
+40,187953,128998,2
+41,187133,128631,2
+42,187625,128756,2
+43,188578,129834,2
+44,188364,130698,2
+45,187224,130422,2
+46,187544,130466,2
+47,187287,130253,2
+48,187763,130516,2
+49,187200,130216,2
+50,187662,130378,2
+PILOT_CSV_END
+qemu-system-aarch64: terminating on signal 15 from pid 6140 (make)

@@ -1,0 +1,44 @@
+EXPERIMENT 04 - THREE-RUN COMPARISON
+Counter frequency: 62500000 Hz
+Timer resolution: 16 ns per tick
+P99: nearest-rank method
+Baseline subtraction: none
+Warm-up: 1000 transfers per payload per run
+Measured: 10000 transfers per payload per run
+
+===== RUN01 =====
+Validation: PASS
+Baseline: median=0.080 us, P99=0.128 us, max=5.664 us
+  64 bytes | min=21.456 | mean=35.072 | median=32.400 | P99=69.792 | max=98.912 us
+  Tail counts: >50us=511, >100us=0, >200us=0
+ 512 bytes | min=23.008 | mean=37.700 | median=36.208 | P99=70.672 | max=142.512 us
+  Tail counts: >50us=867, >100us=1, >200us=0
+1518 bytes | min=25.664 | mean=38.677 | median=35.536 | P99=68.160 | max=97.424 us
+  Tail counts: >50us=1644, >100us=0, >200us=0
+
+===== RUN02 =====
+Validation: PASS
+Baseline: median=0.080 us, P99=0.128 us, max=5.200 us
+  64 bytes | min=21.872 | mean=37.094 | median=35.968 | P99=70.672 | max=97.712 us
+  Tail counts: >50us=760, >100us=0, >200us=0
+ 512 bytes | min=23.040 | mean=36.796 | median=33.136 | P99=71.216 | max=94.784 us
+  Tail counts: >50us=916, >100us=0, >200us=0
+1518 bytes | min=25.920 | mean=39.858 | median=35.376 | P99=75.760 | max=1087.856 us
+  Tail counts: >50us=1745, >100us=16, >200us=14
+
+===== RUN03 =====
+Validation: PASS
+Baseline: median=0.088 us, P99=0.128 us, max=5.744 us
+  64 bytes | min=21.584 | mean=36.263 | median=35.376 | P99=69.776 | max=110.640 us
+  Tail counts: >50us=641, >100us=1, >200us=0
+ 512 bytes | min=22.800 | mean=36.143 | median=34.496 | P99=67.696 | max=91.616 us
+  Tail counts: >50us=585, >100us=0, >200us=0
+1518 bytes | min=25.664 | mean=37.777 | median=35.168 | P99=62.064 | max=356.464 us
+  Tail counts: >50us=1366, >100us=1, >200us=1
+
+===== FINAL VALIDATION =====
+Independent runs: 3
+Total timed samples: 90000
+Total baseline samples: 3000
+CSV: results/sel4/04-notification-latency/three-run-comparison.csv
+ANALYSIS: PASS - all three runs verified

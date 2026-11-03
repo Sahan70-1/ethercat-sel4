@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+    <protection_domain name="timer"
+                       priority="150"
+                       budget="10000"
+                       period="10000">
+        <program_image path="timer.elf" />
+        <irq irq="30" id="0" trigger="level" />
+    </protection_domain>
+</system>

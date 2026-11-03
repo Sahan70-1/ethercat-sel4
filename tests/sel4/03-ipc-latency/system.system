@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+    <protection_domain name="master" priority="149">
+        <program_image path="master.elf" />
+    </protection_domain>
+
+    <protection_domain name="driver" priority="150">
+        <program_image path="driver.elf" />
+    </protection_domain>
+
+    <channel>
+        <end pd="master" id="1" pp="true" notify="false" />
+        <end pd="driver" id="1" notify="false" />
+    </channel>
+</system>

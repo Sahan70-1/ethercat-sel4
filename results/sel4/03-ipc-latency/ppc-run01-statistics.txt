@@ -1,0 +1,22 @@
+===== DATA VALIDATION PASSED =====
+Counter frequency: 62500000 Hz
+PPC samples: 10000
+Baseline samples: 1000
+CSV saved: /home/prabash/sel4-research/ethercat-sel4/results/sel4/03-ipc-latency/ppc-samples.csv
+
+===== PPC Round-Trip =====
+Minimum :     1065.000 ticks |       17.040 us
+Mean    :     1721.580 ticks |       27.545 us
+Median  :     1557.500 ticks |       24.920 us
+P99     :     3297.000 ticks |       52.752 us
+Maximum :    12573.000 ticks |      201.168 us
+
+===== Timestamp Baseline =====
+Minimum :        5.000 ticks |        0.080 us
+Mean    :        7.149 ticks |        0.114 us
+Median  :        6.000 ticks |        0.096 us
+P99     :        8.000 ticks |        0.128 us
+Maximum :      403.000 ticks |        6.448 us
+
+Note: Baseline overhead has NOT been subtracted.
+Results describe exploratory QEMU measurements.

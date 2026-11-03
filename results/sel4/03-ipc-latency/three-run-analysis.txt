@@ -1,0 +1,29 @@
+Validated run01: ppc-benchmark-raw.log
+  PPC: 10000 | Baseline: 1000
+Validated run02: ppc-run02-raw.log
+  PPC: 10000 | Baseline: 1000
+Validated run03: ppc-run03-raw.log
+  PPC: 10000 | Baseline: 1000
+
+===== THREE-RUN PPC COMPARISON =====
+Run            Min      Mean    Median       P99       Max
+All latency values in microseconds
+run01       17.040    27.545    24.920    52.752   201.168
+run02       17.840    29.059    28.080    61.248   416.832
+run03       17.456    27.597    26.832    52.336   153.920
+
+===== LATENCY TAIL =====
+run01: >50us=133, >100us=2, >200us=1
+run02: >50us=230, >100us=19, >200us=3
+run03: >50us=133, >100us=1, >200us=0
+
+===== TIMESTAMP BASELINE =====
+run01: median=0.096 us, p99=0.128 us, max=6.448 us
+run02: median=0.096 us, p99=0.128 us, max=6.784 us
+run03: median=0.096 us, p99=0.128 us, max=179.376 us
+
+===== OUTPUT FILES =====
+/home/prabash/sel4-research/ethercat-sel4/results/sel4/03-ipc-latency/ppc-runs-comparison.csv
+/home/prabash/sel4-research/ethercat-sel4/results/sel4/03-ipc-latency/ppc-all-runs.csv
+
+All three runs validated.
