@@ -1,0 +1,2 @@
+Initializing SOEM on 'ecat_tx'... done
+Finding autoconfig slaves... no slaves found
