@@ -1,0 +1,8 @@
+experiment,clock_model,requested_us,samples,mean_interval_us,min_interval_us,max_interval_us,mean_lateness_us,max_lateness_us,skipped_periods,source_log
+1ms-default-budget,TCG-default,1000,50,3000.369,2979.408,3021.584,2067.658,2091.168,100,pilot-periodic-raw.log
+1ms-10ms-budget,TCG-default,1000,50,3000.598,2975.936,3023.792,2665.758,2713.984,100,pilot-budget-10ms-raw.log
+2ms-10ms-budget,TCG-default,2000,50,3002.415,2958.48,3089.184,2120.584,2651.808,25,pilot-period-2ms-raw.log
+3ms-10ms-budget,TCG-default,3000,50,3001.119,2975.312,3027.44,1479.632,1509.728,0,pilot-period-3ms-raw.log
+5ms-10ms-budget,TCG-default,5000,50,4971.43,2473.888,6290.496,1625.267,2988.464,0,pilot-period-5ms-raw.log
+1ms-CVAL-only,TCG-default,1000,50,3000.873,2979.44,3029.728,2311.678,2347.2,100,pilot-rearm-cval-only-raw.log
+1ms-icount-shift3,TCG-icount-shift3,1000,50,1000.0,1000.0,1000.0,4.768,4.768,0,pilot-icount-shift3-raw.log

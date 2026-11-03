@@ -1,0 +1,103 @@
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b5000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x000000000025d000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x00000000000014d8   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602aa000   size: 0x0000000000009000   offset: 0x0000000000288778   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b4000   size: 0x00000000000001f8   offset: 0x0000000000291778   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b5000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+PILOT: initialized
+PILOT: starting 1 ms timer
+PILOT: COMPLETE
+PILOT: period_ticks=62500
+PILOT: skipped_periods=0
+PILOT: early_interrupts=0
+PILOT_CSV_BEGIN
+sample,interval_ticks,lateness_ticks,skipped_periods
+1,62500,298,0
+2,62500,298,0
+3,62500,298,0
+4,62500,298,0
+5,62500,298,0
+6,62500,298,0
+7,62500,298,0
+8,62500,298,0
+9,62500,298,0
+10,62500,298,0
+11,62500,298,0
+12,62500,298,0
+13,62500,298,0
+14,62500,298,0
+15,62500,298,0
+16,62500,298,0
+17,62500,298,0
+18,62500,298,0
+19,62500,298,0
+20,62500,298,0
+21,62500,298,0
+22,62500,298,0
+23,62500,298,0
+24,62500,298,0
+25,62500,298,0
+26,62500,298,0
+27,62500,298,0
+28,62500,298,0
+29,62500,298,0
+30,62500,298,0
+31,62500,298,0
+32,62500,298,0
+33,62500,298,0
+34,62500,298,0
+35,62500,298,0
+36,62500,298,0
+37,62500,298,0
+38,62500,298,0
+39,62500,298,0
+40,62500,298,0
+41,62500,298,0
+42,62500,298,0
+43,62500,298,0
+44,62500,298,0
+45,62500,298,0
+46,62500,298,0
+47,62500,298,0
+48,62500,298,0
+49,62500,298,0
+50,62500,298,0
+PILOT_CSV_END

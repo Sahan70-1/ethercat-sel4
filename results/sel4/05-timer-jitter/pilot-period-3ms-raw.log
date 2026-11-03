@@ -1,0 +1,112 @@
+make: Entering directory '/home/prabash/sel4-research/ethercat-sel4/tests/sel4/05-timer-jitter/pilot-period-3ms'
+qemu-system-aarch64 \
+    -machine virt,virtualization=on \
+    -cpu cortex-a53 \
+    -serial mon:stdio \
+    -device loader,file=build/loader.img,addr=0x70000000,cpu-num=0 \
+    -m size=2G \
+    -nographic
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b5000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x000000000025d000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x00000000000014d8   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602aa000   size: 0x0000000000009000   offset: 0x0000000000288778   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b4000   size: 0x00000000000001f8   offset: 0x0000000000291778   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b5000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+PILOT: initialized
+PILOT: starting 3 ms timer
+PILOT: COMPLETE
+PILOT: period_ticks=187500
+PILOT: skipped_periods=0
+PILOT: early_interrupts=0
+PILOT_CSV_BEGIN
+sample,interval_ticks,lateness_ticks,skipped_periods
+1,188043,91160,0
+2,186660,90320,0
+3,188114,90934,0
+4,187637,91071,0
+5,187733,91304,0
+6,187218,91022,0
+7,187574,91096,0
+8,187393,90989,0
+9,188108,91597,0
+10,186869,90966,0
+11,188074,91540,0
+12,187713,91753,0
+13,186962,91215,0
+14,187833,91548,0
+15,187158,91206,0
+16,188087,91793,0
+17,189215,93508,0
+18,186296,92304,0
+19,187692,92496,0
+20,188202,93198,0
+21,185957,91655,0
+22,188093,92248,0
+23,187181,91929,0
+24,187778,92207,0
+25,187843,92550,0
+26,187334,92384,0
+27,188127,93011,0
+28,187499,93010,0
+29,187150,92660,0
+30,187507,92667,0
+31,187280,92447,0
+32,187491,92438,0
+33,187413,92351,0
+34,187757,92608,0
+35,188270,93378,0
+36,187278,93156,0
+37,187650,93306,0
+38,187431,93237,0
+39,187915,93652,0
+40,187059,93211,0
+41,187437,93148,0
+42,187509,93157,0
+43,187658,93315,0
+44,188543,94358,0
+45,187281,94139,0
+46,187298,93937,0
+47,187874,94311,0
+48,187171,93982,0
+49,187783,94265,0
+50,187348,94113,0
+PILOT_CSV_END
+qemu-system-aarch64: terminating on signal 15 from pid 6202 (make)

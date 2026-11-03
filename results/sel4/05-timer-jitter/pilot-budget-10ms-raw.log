@@ -1,0 +1,112 @@
+make: Entering directory '/home/prabash/sel4-research/ethercat-sel4/tests/sel4/05-timer-jitter/pilot-budget-10ms'
+qemu-system-aarch64 \
+    -machine virt,virtualization=on \
+    -cpu cortex-a53 \
+    -serial mon:stdio \
+    -device loader,file=build/loader.img,addr=0x70000000,cpu-num=0 \
+    -m size=2G \
+    -nographic
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b5000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x000000000025d000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x00000000000014d8   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602aa000   size: 0x0000000000009000   offset: 0x0000000000288778   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b4000   size: 0x00000000000001f8   offset: 0x0000000000291778   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b5000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+PILOT: initialized
+PILOT: starting 1 ms timer
+PILOT: COMPLETE
+PILOT: period_ticks=62500
+PILOT: skipped_periods=118
+PILOT: early_interrupts=0
+PILOT_CSV_BEGIN
+sample,interval_ticks,lateness_ticks,skipped_periods
+1,186753,165503,2
+2,186998,165001,2
+3,187857,165358,2
+4,187862,165720,2
+5,187336,165556,2
+6,187462,165518,2
+7,187612,165630,2
+8,187404,165534,2
+9,187505,165539,2
+10,187602,165641,2
+11,187787,165928,2
+12,187638,166066,2
+13,187133,165699,2
+14,187748,165947,2
+15,187456,165903,2
+16,187445,165848,2
+17,187500,165848,2
+18,187477,165825,2
+19,187844,166169,2
+20,187803,166472,2
+21,187346,166318,2
+22,187521,166339,2
+23,187628,166467,2
+24,186490,165457,2
+25,188529,166486,2
+26,187029,166015,2
+27,188516,167031,2
+28,187242,166773,2
+29,187558,166831,2
+30,187388,166719,2
+31,187534,166753,2
+32,187399,166652,2
+33,187666,166818,2
+34,187233,166551,2
+35,187844,166895,2
+36,187963,167358,2
+37,187821,167679,2
+38,186693,166872,2
+39,188130,167502,2
+40,187271,167273,2
+41,187654,167427,2
+42,187407,167334,2
+43,187549,167383,2
+44,188675,168558,2
+45,187269,168327,2
+46,186391,167218,2
+47,188987,168705,2
+48,187099,168304,2
+49,188820,169624,2
+50,185996,168120,2
+PILOT_CSV_END
+qemu-system-aarch64: terminating on signal 15 from pid 6168 (make)

@@ -1,0 +1,121 @@
+EXPERIMENT 05 - PERIODIC TIMER JITTER
+Six-run benchmark statistical analysis
+
+Board: qemu_virt_aarch64
+Requested timer period: 1000 us
+Counter frequency: 62500000 Hz
+Warmup callbacks per run: 1000
+Measured callbacks per run: 10000
+P99 calculation: nearest rank
+
+DEFAULT RUN 01
+  Samples: 10000
+  Interval mean: 2945.101 us
+  Interval median: 2999.920 us
+  Interval P99: 3020.096 us
+  Interval maximum: 5023.440 us
+  Lateness mean: 2450.660 us
+  Lateness P99: 2626.512 us
+  Lateness maximum: 4167.312 us
+  Measured skipped deadlines: 19451
+  Callbacks with skips: 9726
+  Warmup skipped deadlines: 1942
+
+DEFAULT RUN 02
+  Samples: 10000
+  Interval mean: 2962.040 us
+  Interval median: 2999.872 us
+  Interval P99: 3085.872 us
+  Interval maximum: 10247.584 us
+  Lateness mean: 2272.156 us
+  Lateness P99: 2682.528 us
+  Lateness maximum: 9962.608 us
+  Measured skipped deadlines: 19621
+  Callbacks with skips: 9795
+  Warmup skipped deadlines: 1983
+
+DEFAULT RUN 03
+  Samples: 10000
+  Interval mean: 2860.400 us
+  Interval median: 2999.824 us
+  Interval P99: 3021.024 us
+  Interval maximum: 7456.352 us
+  Lateness mean: 2413.057 us
+  Lateness P99: 2633.008 us
+  Lateness maximum: 6951.184 us
+  Measured skipped deadlines: 18604
+  Callbacks with skips: 9300
+  Warmup skipped deadlines: 1974
+
+ICOUNT RUN 01
+  Samples: 10000
+  Interval mean: 1000.000 us
+  Interval median: 1000.000 us
+  Interval P99: 1000.000 us
+  Interval maximum: 1000.000 us
+  Lateness mean: 4.768 us
+  Lateness P99: 4.768 us
+  Lateness maximum: 4.768 us
+  Measured skipped deadlines: 0
+  Callbacks with skips: 0
+  Warmup skipped deadlines: 0
+
+ICOUNT RUN 02
+  Samples: 10000
+  Interval mean: 1000.000 us
+  Interval median: 1000.000 us
+  Interval P99: 1000.000 us
+  Interval maximum: 1000.000 us
+  Lateness mean: 4.768 us
+  Lateness P99: 4.768 us
+  Lateness maximum: 4.768 us
+  Measured skipped deadlines: 0
+  Callbacks with skips: 0
+  Warmup skipped deadlines: 0
+
+ICOUNT RUN 03
+  Samples: 10000
+  Interval mean: 1000.000 us
+  Interval median: 1000.000 us
+  Interval P99: 1000.000 us
+  Interval maximum: 1000.000 us
+  Lateness mean: 4.768 us
+  Lateness P99: 4.768 us
+  Lateness maximum: 4.768 us
+  Measured skipped deadlines: 0
+  Callbacks with skips: 0
+  Warmup skipped deadlines: 0
+
+COMBINED DEFAULT RESULTS
+  Samples: 30000
+  Mean interval: 2922.514 us
+  Median interval: 2999.856 us
+  P99 interval: 3038.112 us
+  Maximum interval: 10247.584 us
+  Mean lateness: 2378.624 us
+  P99 lateness: 2642.416 us
+  Maximum lateness: 9962.608 us
+  Measured skipped deadlines: 57676
+  Callbacks with skips: 28821
+
+COMBINED ICOUNT RESULTS
+  Samples: 30000
+  Mean interval: 1000.000 us
+  Median interval: 1000.000 us
+  P99 interval: 1000.000 us
+  Maximum interval: 1000.000 us
+  Mean lateness: 4.768 us
+  P99 lateness: 4.768 us
+  Maximum lateness: 4.768 us
+  Measured skipped deadlines: 0
+  Callbacks with skips: 0
+
+INTERPRETATION AND LIMITATIONS
+Default TCG uses the normal QEMU timing model.
+Instruction-counted TCG uses -icount shift=3,sleep=off.
+Instruction-counted time is artificial virtual time.
+The two timing models must be reported separately.
+Skipped deadlines are calculated by benchmark software.
+The benchmark does not measure EtherCAT network traffic.
+QEMU results do not establish physical WCET guarantees.
+A measured maximum is not a proven worst-case bound.

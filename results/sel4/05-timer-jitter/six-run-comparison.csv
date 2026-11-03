@@ -1,0 +1,7 @@
+clock_mode,run,samples,interval_min_us,interval_mean_us,interval_median_us,interval_p99_us,interval_max_us,lateness_min_us,lateness_mean_us,lateness_median_us,lateness_p99_us,lateness_max_us,measured_skipped_deadlines,callbacks_with_skips,warmup_skipped_deadlines,source_log
+default,1,10000,45.12,2945.101,2999.92,3020.096,5023.44,17.68,2450.66,2569.512,2626.512,4167.312,19451,9726,1942,full-default-run01-raw.log
+default,2,10000,48.0,2962.04,2999.872,3085.872,10247.584,18.496,2272.156,2134.4,2682.528,9962.608,19621,9795,1983,full-default-run02-raw.log
+default,3,10000,93.376,2860.4,2999.824,3021.024,7456.352,17.392,2413.057,2613.84,2633.008,6951.184,18604,9300,1974,full-default-run03-raw.log
+icount,1,10000,1000.0,1000.0,1000.0,1000.0,1000.0,4.768,4.768,4.768,4.768,4.768,0,0,0,full-icount-run01-raw.log
+icount,2,10000,1000.0,1000.0,1000.0,1000.0,1000.0,4.768,4.768,4.768,4.768,4.768,0,0,0,full-icount-run02-raw.log
+icount,3,10000,1000.0,1000.0,1000.0,1000.0,1000.0,4.768,4.768,4.768,4.768,4.768,0,0,0,full-icount-run03-raw.log
