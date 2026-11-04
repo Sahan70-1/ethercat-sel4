@@ -172,3 +172,17 @@ See [commands](../tests/05a-soem-interface/README.md) and
 5A delivers a source audit with host validation. It does not establish raw
 Ethernet exchange in this cloud instance, SOEM slave discovery, an operational
 seL4 adapter, or real-time guarantees. 5B and 5C remain future work.
+
+
+### Guided WSL completion
+
+The student reproduced the pinned revision inspection, Linux build,
+usage/adapter enumeration and both host demos. See the
+[WSL evidence](../results/05a-soem-interface/wsl-inspection.md).
+The agreed 5A source-investigation and host-check scope is complete.
+
+The first 5B implementation milestone is a small Linux-tested raw-frame
+transport seam with explicit TX/RX results, ownership and deadline behavior.
+Keep SOEM index/WKC/retry logic above that seam. Verify the unchanged Linux
+path before queue/mock error tests and later sDDF integration. This milestone
+is planned, not implemented or tested by 5A.

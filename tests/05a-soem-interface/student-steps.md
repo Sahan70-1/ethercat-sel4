@@ -122,5 +122,6 @@ temporary directory so no existing executable is overwritten.
 Expected: local format PASS, all three simulated WKC cases PASS, final success
 line. Send the output. These programs do not send frames or use real slaves.
 
-Status: steps 1–6 confirmed from student output; final WSL host demos pending.
+Status: steps 1–7 confirmed from student output. The agreed 5A investigation
+and host checks are complete; 5B implementation remains future work.
 See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).

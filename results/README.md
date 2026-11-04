@@ -11,7 +11,8 @@
   1 and 2 share the first test folder.
 - EtherCAT experiment 5A: [cloud validation](05a-soem-interface/README.md).
   Student [WSL source inspection](05a-soem-interface/wsl-inspection.md) is recorded;
-  WSL build and sample adapter enumeration passed; final host demos pending.
+  WSL build, sample adapter enumeration and both host demos passed.
+  The agreed 5A source-investigation and host-check scope is complete.
 - seL4 foundation experiments 00–05: `sel4/`, with corresponding source and
   methodology under [tests/sel4](../tests/sel4/).
 

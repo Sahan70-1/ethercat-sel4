@@ -44,7 +44,8 @@ track under `tests/sel4/` has recorded QEMU boot, notification, shared-memory,
 PPC latency, notification latency and timer-jitter experiments. Their original
 READMEs and evidence remain in place. QEMU timing is not hardware timing.
 
-Experiment 5A adds a source audit and host checks. No SOEM-to-sDDF port or
+Experiment 5A is complete for its source-audit and host-check scope, with
+cloud validation and student WSL results recorded. No SOEM-to-sDDF port or
 physical slave communication is implemented yet. Experiments 5B/5C are next.
 
 ## Project Team

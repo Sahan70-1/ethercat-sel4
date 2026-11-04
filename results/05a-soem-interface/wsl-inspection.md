@@ -128,5 +128,53 @@ Exit status: 1 (expected: 1 for usage)
 
 Outcome: PASS for startup, adapter enumeration and expected usage status.
 Interface names alone do not establish link state or successful frame exchange.
-The invocation sends no frames. Final WSL frame-format/WKC demo checks remain
-pending; these are software-only checks, not a new EtherCAT network experiment.
+The invocation sends no frames. Final WSL frame-format/WKC demo checks are recorded below; these are software-only checks, not a new EtherCAT network experiment.
+
+## WSL host demos — final checks
+
+The student compiled both existing C demos with
+`gcc -std=c11 -Wall -Wextra -Werror`, using a fresh temporary directory,
+and ran both under `set -e`. Supplied output:
+
+```text
+EtherType: 0x88A4
+EtherCAT type: 1
+EtherCAT datagrams length: 14 bytes
+Command: 0x07 (BRD: broadcast read)
+Datagram data length: 2 bytes
+Working counter: 0
+Local format checks: PASS
+Constructed 60-byte Ethernet buffer (not transmitted)
+Case A: both slaves respond
+  Received WKC: 2 (expected for healthy network: 2)
+  Read data:    0x0002
+  Master check: OK
+  Simulation check: PASS
+
+Case B: only one slave responds
+  Received WKC: 1 (expected for healthy network: 2)
+  Read data:    0x0002
+  Master check: MISSING RESPONSE(S)
+  Simulation check: PASS
+
+Case C: neither slave responds
+  Received WKC: 0 (expected for healthy network: 2)
+  Read data:    0x0000
+  Master check: MISSING RESPONSE(S)
+  Simulation check: PASS
+
+Both host demos exited successfully
+```
+
+Outcome: PASS for local frame format and all three synthetic BRD WKC cases.
+`MISSING RESPONSE(S)` is expected for the deliberately incomplete cases; it
+is not a failed simulation. No frames or real slave responses were involved.
+
+## 5A completion
+
+The agreed source-investigation and host-check scope is complete: pinned SOEM
+revision, Linux TX/RX/index matching/retry/time inspection, candidate sDDF
+mapping, Linux library/sample build, adapter enumeration and host demos.
+WSL outcomes are student-reported terminal evidence; cloud checks are recorded
+separately. No new WSL raw-frame exchange, seL4/sDDF integration or hardware
+timing claim is made. 5B implementation has not started.
