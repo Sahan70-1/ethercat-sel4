@@ -57,3 +57,21 @@ The capture timestamps are retained as supplied, without deriving timing claims.
 Next gate: a deliberately synthetic reply on veth using the new dedicated
 probe and mock peer. Cloud tests of that helper use local socketpairs only;
 its AF_PACKET/veth execution remains pending on the student's WSL machine.
+
+
+## Student RX-helper build and local test
+
+The student updated the branch from d55b962 to fd02e6b, reconfigured the
+existing `/tmp/ethercat-05b.wXt9sH/build` directory and built `veth_probe`.
+The selected CTest invocation was:
+
+```sh
+ctest --test-dir /tmp/ethercat-05b.wXt9sH/build -R mock_peer_and_probe --output-on-failure
+```
+
+Result: 1/1 selected suite passed. This is an additional local socketpair test,
+not a rerun of all three suites together and not an AF_PACKET/veth RX test.
+The original two suites passed earlier as separately recorded above.
+See [the supplied helper transcript](wsl-rx-helper-tests.txt); only the new
+command/output section was retained from the pasted terminal history, with
+line endings normalized. The mock responder/probe veth execution is next.

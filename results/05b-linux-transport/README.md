@@ -70,3 +70,6 @@ No sanitizer diagnostics were emitted.
 
 Trailing whitespace in the two helper CTest transcripts was normalized;
 all output text and results are retained.
+
+The student also built the RX helper and passed its selected local CTest suite
+on WSL: [helper transcript](wsl-rx-helper-tests.txt). Veth RX remains pending.

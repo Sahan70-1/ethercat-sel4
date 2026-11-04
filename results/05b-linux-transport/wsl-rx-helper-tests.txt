@@ -1,0 +1,68 @@
+(cmake-venv) sahan@SAHAN-PC:~/FYP/deps/SOEM$ (
+  set -e
+  cd ~/FYP/ethercat-sel4
+  git switch experiment-05b-linux-transport
+  git pull --ff-only
+
+  source ~/tools/cmake-venv/bin/activate
+
+  cmake -S tests/05b-linux-transport \
+    -B /tmp/ethercat-05b.wXt9sH/build
+
+  cmake --build /tmp/ethercat-05b.wXt9sH/build \
+    --target veth_probe -j 2
+
+  ctest --test-dir /tmp/ethercat-05b.wXt9sH/build \
+    -R mock_peer_and_probe --output-on-failure
+)
+Already on 'experiment-05b-linux-transport'
+Your branch is up to date with 'origin/experiment-05b-linux-transport'.
+remote: Enumerating objects: 56, done.
+remote: Counting objects: 100% (56/56), done.
+remote: Compressing objects: 100% (18/18), done.
+remote: Total 44 (delta 28), reused 42 (delta 26), pack-reused 0 (from 0)
+Unpacking objects: 100% (44/44), 16.70 KiB | 657.00 KiB/s, done.
+From github.com:Sahan70-1/ethercat-sel4
+   d55b962..fd02e6b  experiment-05b-linux-transport -> origin/experiment-05b-linux-transport
+Updating d55b962..fd02e6b
+Fast-forward
+ README.md                                                       |   4 +-
+ docs/experiment-05b-linux-transport.md                          |  14 +++-
+ results/05b-linux-transport/README.md                           |  24 ++++++-
+ results/05b-linux-transport/cloud-rx-helper-sanitizer-tests.txt |  64 +++++++++++++++++
+ results/05b-linux-transport/cloud-rx-helper-tests.txt           |  64 +++++++++++++++++
+ results/05b-linux-transport/wsl-results.md                      |  59 ++++++++++++++++
+ results/05b-linux-transport/wsl-tests.txt                       | 113 ++++++++++++++++++++++++++++++
+ results/05b-linux-transport/wsl-veth-tx.txt                     |  26 +++++++
+ results/README.md                                               |   5 +-
+ tests/05b-linux-transport/CMakeLists.txt                        |   8 +++
+ tests/05b-linux-transport/README.md                             |  66 ++++++++++++++++-
+ tests/05b-linux-transport/mock_veth_peer.py                     |  54 ++++++++++++++
+ tests/05b-linux-transport/run.sh                                |   2 +-
+ tests/05b-linux-transport/test_mock_peer.py                     |  81 +++++++++++++++++++++
+ tests/05b-linux-transport/veth_probe.c                          |  75 ++++++++++++++++++++
+ tests/README.md                                                 |   2 +-
+ 16 files changed, 647 insertions(+), 14 deletions(-)
+ create mode 100644 results/05b-linux-transport/cloud-rx-helper-sanitizer-tests.txt
+ create mode 100644 results/05b-linux-transport/cloud-rx-helper-tests.txt
+ create mode 100644 results/05b-linux-transport/wsl-results.md
+ create mode 100644 results/05b-linux-transport/wsl-tests.txt
+ create mode 100644 results/05b-linux-transport/wsl-veth-tx.txt
+ create mode 100644 tests/05b-linux-transport/mock_veth_peer.py
+ create mode 100644 tests/05b-linux-transport/test_mock_peer.py
+ create mode 100644 tests/05b-linux-transport/veth_probe.c
+-- Found Python3: /home/sahan/tools/cmake-venv/bin/python3.12 (found suitable version "3.12.3", minimum required is "3.12") found components: Interpreter
+-- Configuring done (0.4s)
+-- Generating done (0.1s)
+-- Build files have been written to: /tmp/ethercat-05b.wXt9sH/build
+[ 88%] Built target soem
+[ 94%] Building C object CMakeFiles/veth_probe.dir/veth_probe.c.o
+[100%] Linking C executable veth_probe
+[100%] Built target veth_probe
+Test project /tmp/ethercat-05b.wXt9sH/build
+    Start 3: mock_peer_and_probe
+1/1 Test #3: mock_peer_and_probe ..............   Passed    0.56 sec
+
+100% tests passed out of 1
+
+Total Test time (real) =   0.57 sec
