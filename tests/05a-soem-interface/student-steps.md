@@ -60,9 +60,9 @@ remain SOEM semantics that a future adapter must preserve.
 
 ## Step 5 — fresh Linux build check
 
-Run in Ubuntu/WSL. CMake >=3.28 is required. If CMake is missing or too old,
-send the error and activate the existing CMake virtual environment before
-retrying. The fresh temporary directory preserves the existing SOEM build.
+Run in Ubuntu/WSL. CMake >=3.28 is required. The verified existing environment
+is `~/tools/cmake-venv`; activate it in each new terminal using
+`source ~/tools/cmake-venv/bin/activate`. It provides CMake 4.4.4. The fresh temporary directory preserves the existing SOEM build.
 
 ```sh
 (
@@ -81,5 +81,24 @@ Send the output. Compilation does not test Ethernet exchange. Host demo and
 sample entry-point checks follow after the build; see `verify.sh` for the
 complete cloud reproduction procedure.
 
-Status: steps 1–4 confirmed from student-provided source output. WSL build and
-runtime checks pending. See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).
+## Step 6 — sample usage and adapter list
+
+The student's successful build is `/tmp/soem-05a.DuYd8f`.
+Run without an interface argument:
+
+```sh
+(
+  set +e
+  /tmp/soem-05a.DuYd8f/samples/simple_ng/simple_ng
+  soem_status=$?
+  echo "Exit status: $soem_status (expected: 1 for usage)"
+)
+```
+
+Expected behavior: usage text and available adapters; exit status 1 is the
+sample's documented usage path. This invokes interface enumeration, not frame
+transmission. Do not add `sudo` or an interface name for this check. If the
+file is missing, rebuild using step 5 and use the newly printed directory.
+
+Status: steps 1–4 source inspection and step 5 build confirmed from student
+output. Step 6 sample runtime check remains pending. See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).

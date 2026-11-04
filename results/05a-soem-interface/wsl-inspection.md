@@ -66,6 +66,35 @@ Observed in the supplied source:
 
 These are source-inspection findings, not runtime test results. The cloud
 [design audit](../../docs/experiment-05a-soem-network-audit.md) contains the
-proposed sDDF mapping and remaining integration risks. WSL build validation and
-any new network execution remain pending. No successful slave exchange or
+proposed sDDF mapping and remaining integration risks. WSL build validation
+is recorded below; sample runtime checks and any new network execution remain pending. No successful slave exchange or
 seL4 integration is claimed.
+
+## WSL build — confirmed from student terminal output
+
+The initial command stopped at `cmake: command not found`; it did not configure
+or build anything. The existing environment was located at
+`/home/sahan/tools/cmake-venv` and activated with:
+
+```sh
+source ~/tools/cmake-venv/bin/activate
+cmake --version
+```
+
+Reported tools: CMake 4.4.4, GNU C compiler 13.3.0, Python 3.12.3.
+The student ran the documented fresh-build commands with samples enabled and
+parallelism 2. Build directory: `/tmp/soem-05a.DuYd8f`.
+CMake configuration and generation completed. Final output:
+
+```text
+[100%] Linking C static library libsoem.a
+[100%] Built target soem
+[ 86%] Built target soem
+[ 93%] Building C object samples/simple_ng/CMakeFiles/simple_ng.dir/simple_ng.o
+[100%] Linking C executable simple_ng
+[100%] Built target simple_ng
+```
+
+Outcome: PASS for compilation of the pinned Linux library and sample, based
+on supplied terminal output. No sample execution or frame exchange was part
+of this command. Temporary build paths may disappear after cleanup/restart.

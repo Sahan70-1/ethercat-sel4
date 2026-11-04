@@ -54,4 +54,5 @@ and reproduction limitations. Build outputs and downloaded dependencies remain
 outside the repository. No generated binary is committed.
 
 [Student WSL source inspection](wsl-inspection.md): checkout and function/call
-locations confirmed from supplied output; WSL build/runtime checks pending.
+locations and Linux library/sample build confirmed from supplied output;
+sample execution and new network checks pending.
