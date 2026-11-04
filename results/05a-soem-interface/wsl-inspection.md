@@ -67,7 +67,7 @@ Observed in the supplied source:
 These are source-inspection findings, not runtime test results. The cloud
 [design audit](../../docs/experiment-05a-soem-network-audit.md) contains the
 proposed sDDF mapping and remaining integration risks. WSL build validation
-is recorded below; sample runtime checks and any new network execution remain pending. No successful slave exchange or
+is recorded below; sample entry-point execution is recorded below; new frame-exchange checks remain unrun. No successful slave exchange or
 seL4 integration is claimed.
 
 ## WSL build — confirmed from student terminal output
@@ -98,3 +98,35 @@ CMake configuration and generation completed. Final output:
 Outcome: PASS for compilation of the pinned Linux library and sample, based
 on supplied terminal output. No sample execution or frame exchange was part
 of this command. Temporary build paths may disappear after cleanup/restart.
+
+## WSL sample entry-point check
+
+The student executed the newly built sample without an interface argument:
+
+```sh
+(
+  set +e
+  /tmp/soem-05a.DuYd8f/samples/simple_ng/simple_ng
+  soem_status=$?
+  echo "Exit status: $soem_status (expected: 1 for usage)"
+)
+```
+
+Supplied output:
+
+```text
+Usage: simple_ng IFNAME1
+IFNAME1 is the NIC interface name, e.g. 'eth0'
+
+Available adapters:
+    - lo  (lo)
+    - eth0  (eth0)
+    - ecat_rx  (ecat_rx)
+    - ecat_tx  (ecat_tx)
+Exit status: 1 (expected: 1 for usage)
+```
+
+Outcome: PASS for startup, adapter enumeration and expected usage status.
+Interface names alone do not establish link state or successful frame exchange.
+The invocation sends no frames. Final WSL frame-format/WKC demo checks remain
+pending; these are software-only checks, not a new EtherCAT network experiment.

@@ -55,4 +55,4 @@ outside the repository. No generated binary is committed.
 
 [Student WSL source inspection](wsl-inspection.md): checkout and function/call
 locations and Linux library/sample build confirmed from supplied output;
-sample execution and new network checks pending.
+sample startup/adapter enumeration also passed; final WSL host demos pending.

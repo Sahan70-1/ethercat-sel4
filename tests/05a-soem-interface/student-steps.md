@@ -100,5 +100,27 @@ sample's documented usage path. This invokes interface enumeration, not frame
 transmission. Do not add `sudo` or an interface name for this check. If the
 file is missing, rebuild using step 5 and use the newly printed directory.
 
-Status: steps 1–4 source inspection and step 5 build confirmed from student
-output. Step 6 sample runtime check remains pending. See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).
+## Step 7 — final host demo checks
+
+These existing experiments provide a small regression check before closing 5A.
+Run from the student's existing project checkout; outputs go to a fresh
+temporary directory so no existing executable is overwritten.
+
+```sh
+(
+  set -e
+  cd ~/FYP/ethercat-sel4
+  demo_dir=$(mktemp -d /tmp/ethercat-05a-demos.XXXXXX)
+  gcc -std=c11 -Wall -Wextra -Werror tests/01-frame-handling/frame_demo.c -o "$demo_dir/frame_demo"
+  gcc -std=c11 -Wall -Wextra -Werror tests/01-frame-handling/ethercat_wkc_demo.c -o "$demo_dir/wkc_demo"
+  "$demo_dir/frame_demo"
+  "$demo_dir/wkc_demo"
+  echo "Both host demos exited successfully"
+)
+```
+
+Expected: local format PASS, all three simulated WKC cases PASS, final success
+line. Send the output. These programs do not send frames or use real slaves.
+
+Status: steps 1–6 confirmed from student output; final WSL host demos pending.
+See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).
