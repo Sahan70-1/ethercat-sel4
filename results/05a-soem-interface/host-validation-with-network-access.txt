@@ -1,0 +1,68 @@
+cc (Debian 14.2.0-19) 14.2.0
+cmake version 4.4.4
+EtherType: 0x88A4
+EtherCAT type: 1
+EtherCAT datagrams length: 14 bytes
+Command: 0x07 (BRD: broadcast read)
+Datagram data length: 2 bytes
+Working counter: 0
+Local format checks: PASS
+Constructed 60-byte Ethernet buffer (not transmitted)
+Case A: both slaves respond
+  Received WKC: 2 (expected for healthy network: 2)
+  Read data:    0x0002
+  Master check: OK
+  Simulation check: PASS
+
+Case B: only one slave responds
+  Received WKC: 1 (expected for healthy network: 2)
+  Read data:    0x0002
+  Master check: MISSING RESPONSE(S)
+  Simulation check: PASS
+
+Case C: neither slave responds
+  Received WKC: 0 (expected for healthy network: 2)
+  Read data:    0x0000
+  Master check: MISSING RESPONSE(S)
+  Simulation check: PASS
+
+-- The C compiler identification is GNU 14.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Current build type is: RelWithDebInfo
+-- Current install path is: /tmp/tmp.o2uvs07Yz7/soem-build/install
+-- Building for Linux
+-- Found Python3: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12 (found version "3.12.14") found components: Interpreter
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/tmp.o2uvs07Yz7/soem-build
+[  7%] Building C object CMakeFiles/soem.dir/src/ec_base.o
+[ 15%] Building C object CMakeFiles/soem.dir/src/ec_coe.o
+[ 23%] Building C object CMakeFiles/soem.dir/src/ec_config.o
+[ 30%] Building C object CMakeFiles/soem.dir/src/ec_dc.o
+[ 38%] Building C object CMakeFiles/soem.dir/src/ec_eoe.o
+[ 46%] Building C object CMakeFiles/soem.dir/src/ec_foe.o
+[ 53%] Building C object CMakeFiles/soem.dir/src/ec_main.o
+[ 61%] Building C object CMakeFiles/soem.dir/src/ec_print.o
+[ 69%] Building C object CMakeFiles/soem.dir/src/ec_soe.o
+[ 76%] Building C object CMakeFiles/soem.dir/osal/linux/osal.o
+[ 84%] Building C object CMakeFiles/soem.dir/oshw/linux/oshw.o
+[ 92%] Building C object CMakeFiles/soem.dir/oshw/linux/nicdrv.o
+[100%] Linking C static library libsoem.a
+[100%] Built target soem
+[ 86%] Built target soem
+[ 93%] Building C object samples/simple_ng/CMakeFiles/simple_ng.dir/simple_ng.o
+[100%] Linking C executable simple_ng
+[100%] Built target simple_ng
+Usage: simple_ng IFNAME1
+IFNAME1 is the NIC interface name, e.g. 'eth0'
+
+Available adapters:
+    - lo  (lo)
+    - eth0  (eth0)
+    - eth1  (eth1)
+PASS: host demos, pinned SOEM build, sample usage/adapter enumeration
+NOT TESTED: raw Ethernet exchange, slaves, seL4/sDDF integration, timing

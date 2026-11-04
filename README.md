@@ -30,6 +30,21 @@ The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 
 - QEMU
 - Linux development environment
 
+## Start here
+
+- [Repository map and review](docs/repository-map.md): file locations, experiment numbering and known duplication.
+- [Experiment 5A: SOEM network interface audit](docs/experiment-05a-soem-network-audit.md).
+- [Reproduce the 5A host checks](tests/05a-soem-interface/README.md).
+
+There are two experiment tracks. The EtherCAT track has local frame/WKC demos,
+Linux veth transmission and recorded SOEM TX with no slaves found. The seL4
+track under `tests/sel4/` has recorded QEMU boot, notification, shared-memory,
+PPC latency, notification latency and timer-jitter experiments. Their original
+READMEs and evidence remain in place. QEMU timing is not hardware timing.
+
+Experiment 5A adds a source audit and host checks. No SOEM-to-sDDF port or
+physical slave communication is implemented yet. Experiments 5B/5C are next.
+
 ## Project Team
 
 - E/21/198 — Jayasundara J.M.S.D.B.
@@ -40,9 +55,9 @@ The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 
 
 Early-stage research and prototyping.
 
-Initial areas of investigation include seL4 protection-domain communication, virtual Ethernet communication, and preparation for EtherCAT master integration.
+Existing experiments cover seL4 protection-domain communication and virtual Ethernet transmission. The next integration work starts at SOEM’s OS-dependent network boundary.
 
-Experimental measurements will be published after their methodology and results have been verified.
+Recorded QEMU measurements and their limitations are available under `results/sel4/`; see the repository review for the validation performed here.
 
 ## Planned Experiments
 
