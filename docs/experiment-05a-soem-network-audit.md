@@ -185,4 +185,5 @@ The first 5B implementation milestone is a small Linux-tested raw-frame
 transport seam with explicit TX/RX results, ownership and deadline behavior.
 Keep SOEM index/WKC/retry logic above that seam. Verify the unchanged Linux
 path before queue/mock error tests and later sDDF integration. This milestone
-is planned, not implemented or tested by 5A.
+was planned, not implemented or tested by 5A. Its first Linux implementation
+and synthetic tests are now recorded separately in [5B](experiment-05b-linux-transport.md).

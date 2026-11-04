@@ -37,6 +37,7 @@ The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 
 - [Repository map and review](docs/repository-map.md): file locations, experiment numbering and known duplication.
 - [Experiment 5A: SOEM network interface audit](docs/experiment-05a-soem-network-audit.md).
 - [Reproduce the 5A host checks](tests/05a-soem-interface/README.md).
+- [5B Linux transport implementation and tests](tests/05b-linux-transport/README.md).
 
 There are two experiment tracks. The EtherCAT track has local frame/WKC demos,
 Linux veth transmission and recorded SOEM TX with no slaves found. The seL4
@@ -46,7 +47,9 @@ READMEs and evidence remain in place. QEMU timing is not hardware timing.
 
 Experiment 5A is complete for its source-audit and host-check scope, with
 cloud validation and student WSL results recorded. No SOEM-to-sDDF port or
-physical slave communication is implemented yet. Experiments 5B/5C are next.
+physical slave communication is implemented yet. The first 5B Linux transport
+milestone passes cloud synthetic tests; student reproduction and real veth
+validation remain pending. 5C sDDF integration is future work.
 
 ## Project Team
 

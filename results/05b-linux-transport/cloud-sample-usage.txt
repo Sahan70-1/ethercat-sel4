@@ -1,0 +1,8 @@
+Usage: simple_ng IFNAME1
+IFNAME1 is the NIC interface name, e.g. 'eth0'
+
+Available adapters:
+    - lo  (lo)
+    - eth0  (eth0)
+    - eth1  (eth1)
+Exit status: 1 (expected 1 for usage)

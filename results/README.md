@@ -18,3 +18,7 @@
 
 Existing logs are historical evidence. Reanalysis of those logs is not a new
 hardware or QEMU run. Keep future runs separate and record their environment.
+
+- EtherCAT experiment 5B, first Linux milestone: [cloud results](05b-linux-transport/README.md).
+  Two suites pass with synthetic peers, including sanitizer checks. WSL
+  reproduction and AF_PACKET/veth exchange remain pending.

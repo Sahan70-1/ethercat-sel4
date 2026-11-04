@@ -1,0 +1,8 @@
+[ 60%] Built target ec_transport
+[ 80%] Building C object CMakeFiles/test_transport.dir/test_transport.c.o
+[100%] Linking C executable test_transport
+[100%] Built target test_transport
+[ 88%] Built target soem
+[100%] Built target test_soem_transport
+[ 88%] Built target soem
+[100%] Built target simple_ng

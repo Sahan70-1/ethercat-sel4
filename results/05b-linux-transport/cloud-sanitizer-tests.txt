@@ -1,0 +1,45 @@
+UpdateCTestConfiguration  from :/workspace/setup-ethercat/05b-sanitized/build/DartConfiguration.tcl
+Test project /workspace/setup-ethercat/05b-sanitized/build
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: linux_transport
+
+1: Test command: /workspace/setup-ethercat/05b-sanitized/build/test_transport
+1: Working Directory: /workspace/setup-ethercat/05b-sanitized/build
+1: Test timeout computed to be: 15
+1: PASS empty RX is AGAIN, not a frame/WKC
+1: PASS full frame lengths and byte-for-byte EtherType preservation
+1: PASS invalid TX sizes and arguments rejected
+1: PASS zero/short/oversized/truncated RX consumed and rejected
+1: PASS 256 buffer reuse cycles without duplicate RX
+1: PASS TX backpressure and recovery after drain
+1: PASS expired/future monotonic deadlines
+1: PASS interrupted wait retains original deadline
+1: PASS closed/invalid descriptor errors
+1/2 Test #1: linux_transport ..................   Passed    0.03 sec
+test 2
+    Start 2: soem_transport
+
+2: Test command: /workspace/setup-ethercat/05b-sanitized/build/test_soem_transport
+2: Working Directory: /workspace/setup-ethercat/05b-sanitized/build
+2: Test timeout computed to be: 15
+2: PASS actual SOEM accepts mock WKC=0 without retry; empty RX is NOFRAME
+2: PASS actual SOEM retries unanswered request then accepts mock response
+2: PASS actual SOEM buffers out-of-order mock indexes
+2: PASS truncated RX and invalid WKC offset rejected before completion
+2: PASS unexpected index and non-EtherCAT frame not completed
+2: PASS TX backpressure/error mapping and no-response deadline
+2: PASS 64 SOEM index allocate/receive/release cycles
+2: PASS invalid caller index and unsupported secondary setup rejected
+2: PASS actual SOEM through Linux socketpair TX/RX/wait with synthetic peer
+2: All responses are synthetic; no real slaves or network NIC tested
+2/2 Test #2: soem_transport ...................   Passed    0.02 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.05 sec

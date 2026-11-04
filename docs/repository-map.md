@@ -12,10 +12,11 @@ The handoff was used as historical context and checked against repository eviden
 | `tests/01-frame-handling/` | EtherCAT experiments 1 and 2: format and simulated WKC |
 | `tests/02-virtual-ethernet/` | EtherCAT experiment 3: Python raw frame on Linux veth |
 | `tests/03-soem-network/` | EtherCAT experiment 4: SOEM TX investigation |
+| `tests/05b-linux-transport/` | First Linux backend implementation and synthetic SOEM tests |
 | `tests/05a-soem-interface/` | EtherCAT experiment 5A: source audit validation |
 | `tests/sel4/00-*` through `05-*` | Separate seL4 track: boot, notification, shared memory, PPC, notification latency, timer jitter |
 | `results/` | Recorded evidence, with paths matching the relevant test group |
-| `src/` | Reserved for integration code; no SOEM port exists here yet |
+| `src/transport/` | 5B portable copying transport interface and Linux implementation; no seL4 backend yet |
 | `turorial/` | Legacy empty placeholder with a spelling error; retained to avoid unnecessary history churn |
 
 Folder numbers in the original EtherCAT track do not equal experiment numbers:
