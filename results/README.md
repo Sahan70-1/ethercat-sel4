@@ -21,4 +21,5 @@ hardware or QEMU run. Keep future runs separate and record their environment.
 
 - EtherCAT experiment 5B, first Linux milestone: [cloud results](05b-linux-transport/README.md).
   Two suites pass with synthetic peers on cloud and [student WSL](05b-linux-transport/wsl-results.md).
-  Sanitizer checks passed on cloud; AF_PACKET/veth exchange remains pending.
+  Sanitizer checks passed on cloud. Adapted veth TX was observed on WSL;
+  synthetic-response RX over veth remains pending.

@@ -19,7 +19,7 @@ source ~/tools/cmake-venv/bin/activate
 bash tests/05b-linux-transport/run.sh ~/FYP/deps/SOEM
 ```
 
-Expected: two CTest suites pass, followed by a PASS line. Send the terminal
+Expected: three CTest suites pass, followed by a PASS line. Send the terminal
 output, including the printed output-directory path. The runner retains
 configure/build/test logs in that directory. No `sudo`, interface setup, NIC
 frames or slave hardware is required. The runner uses AF_UNIX datagram
@@ -55,6 +55,7 @@ previous outputs and do not patch your existing SOEM source or build.
 | Suite | Checks |
 |---|---|
 | `linux_transport` | Byte preservation at 14/60/1518-byte capacities; zero/short/oversized arguments; short/truncated/oversized RX; empty RX; 256 reuse cycles; queue backpressure/recovery; expired/future deadlines; interrupted wait; closed descriptor errors |
+| `mock_peer_and_probe` | Five Python checks: reply fields/padding, rejection of malformed/unrelated requests, actual C probe acceptance of a matching reply, rejection of wrong payload/index; local socketpairs only |
 | `soem_transport` | Actual pinned SOEM code with mocked responses: WKC=0 vs no frame; resend then WKC=2; out-of-order indexes; truncated packets and bad WKC offsets; unexpected indexes and EtherType; TX failure; no-response deadline; 64 index reuse cycles; invalid caller index; unsupported secondary setup; SOEM TX/RX/wait through the Linux socketpair backend |
 
 Mocks intentionally create responses and WKCs; no discovery or hardware
@@ -64,9 +65,10 @@ not tested VLANs, FCS/padding conventions, redundancy or replay protection.
 
 ## Next practical gate
 
-The student repeated both ordinary suites successfully; see [WSL evidence](../../results/05b-linux-transport/wsl-results.md).
-Next validate the adapted `simple_ng` over
-WSL veth plus tcpdump and compare against the original 5A/Experiment 4 path.
+The student repeated the original two ordinary suites successfully; see [WSL evidence](../../results/05b-linux-transport/wsl-results.md).
+The adapted `simple_ng` subsequently sent frames over WSL veth, captured by
+tcpdump; bytes matched the historical Experiment 4 capture. The receive path
+over veth still needs the dedicated mock-reply check below.
 Use fresh output files; no slaves found is not successful slave discovery.
 Cloud AF_PACKET creation currently returns EPERM, so this real Linux network
 path is unrun here. Then address remaining OSAL/lifecycle and Microkit wait
@@ -91,3 +93,43 @@ not recreate interfaces, change link state or send frames. The veth pair should
 be linked to each other and administratively UP before capture. Do not use the
 old `~/FYP/deps/SOEM/build/...` binary for the adapted regression. If temporary
 outputs were deleted, rerun the tests and use the new printed directory.
+
+## Guided veth RX check — synthetic reply, not a slave
+
+The responder accepts only the probe's single BRD read with zero initial
+payload/WKC. It preserves the index and returns fabricated payload 0x0002 and
+WKC=2. It does not implement discovery, state transitions or any slave device.
+Use only the isolated veth pair. The probe checks both data and WKC and exits
+1 on a missing/mismatched response. Its timeout is a functional limit, not a
+performance measurement.
+
+Prepare from the project root after updating the 5B branch:
+
+```sh
+source ~/tools/cmake-venv/bin/activate
+cmake -S tests/05b-linux-transport -B /tmp/ethercat-05b.wXt9sH/build
+cmake --build /tmp/ethercat-05b.wXt9sH/build --target veth_probe -j 2
+ctest --test-dir /tmp/ethercat-05b.wXt9sH/build -R mock_peer_and_probe --output-on-failure
+```
+
+If the temporary build no longer exists, run `run.sh` again and substitute its
+new output directory. Do not configure a fresh build without SOEM_SOURCE.
+
+Terminal 1 (wait for `MOCK READY`):
+
+```sh
+sudo python3 ~/FYP/ethercat-sel4/tests/05b-linux-transport/mock_veth_peer.py ecat_rx
+```
+
+Terminal 2, within 120 seconds:
+
+```sh
+sudo /tmp/ethercat-05b.wXt9sH/build/veth_probe ecat_tx
+echo "Probe exit status: $?"
+```
+
+Expected, not yet observed on WSL: `MOCK SENT` on terminal 1, and the probe's
+PASS line with synthetic payload 0x0002/WKC=2 and exit 0 on terminal 2.
+Send both outputs. This proves only a synthetic functional exchange if it
+passes. Rootless tests of the same C probe use `--test-fd` and AF_UNIX sockets;
+that option is a test injection path, not a NIC interface.

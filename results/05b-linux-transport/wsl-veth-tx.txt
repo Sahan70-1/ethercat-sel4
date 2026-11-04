@@ -1,0 +1,26 @@
+Student-supplied terminal output; shell/password prompts omitted.
+
+Receiver command:
+sudo timeout --signal=INT 120s tcpdump -i ecat_rx -nn -e -XX -c 3 'ether proto 0x88a4'
+
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on ecat_rx, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+22:36:17.272001 01:01:01:01:01:01 > ff:ff:ff:ff:ff:ff, ethertype Unknown (0x88a4), length 29:
+        0x0000:  ffff ffff ffff 0101 0101 0101 88a4 0d10  ................
+        0x0010:  0801 0000 0301 0100 0000 0000 00         .............
+22:36:17.274096 01:01:01:01:01:01 > ff:ff:ff:ff:ff:ff, ethertype Unknown (0x88a4), length 29:
+        0x0000:  ffff ffff ffff 0101 0101 0101 88a4 0d10  ................
+        0x0010:  0801 0000 0301 0100 0000 0000 00         .............
+22:36:17.276141 01:01:01:01:01:01 > ff:ff:ff:ff:ff:ff, ethertype Unknown (0x88a4), length 29:
+        0x0000:  ffff ffff ffff 0101 0101 0101 88a4 0d10  ................
+        0x0010:  0801 0000 0301 0100 0000 0000 00         .............
+3 packets captured
+19 packets received by filter
+0 packets dropped by kernel
+
+Sender command:
+sudo timeout 30s /tmp/ethercat-05b.wXt9sH/build/soem/samples/simple_ng/simple_ng ecat_tx
+
+Initializing SOEM on 'ecat_tx'... done
+Finding autoconfig slaves... no slaves found
+Sender exit status: 0

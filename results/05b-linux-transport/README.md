@@ -1,8 +1,8 @@
 # Experiment 5B — cloud evidence
 
 Scope: first single-port Linux transport milestone. Student WSL ordinary
-tests also passed: see [WSL evidence](wsl-results.md). Real AF_PACKET/veth
-exchange remains pending. Existing experiments are preserved.
+tests also passed: see [WSL evidence](wsl-results.md). Adapted AF_PACKET/veth
+TX is observed on WSL; synthetic-response RX remains pending. Existing experiments are preserved.
 
 Host: Debian 13 x86-64; GCC 14.2.0; CMake 4.4.4; Python 3.12.14.
 SOEM source: `49fc34923b973c17700592319159af22157350c9`.
@@ -31,7 +31,7 @@ ordinary logs are from that final run. Sanitizer tests already include it.
 | AddressSanitizer + UndefinedBehaviorSanitizer | PASS, 2/2 suites; no diagnostics | [Sanitized CTest transcript](cloud-sanitizer-tests.txt) |
 | Adapted `simple_ng` usage/adapter enumeration | PASS; expected usage exit 1 | [Sample transcript](cloud-sample-usage.txt) |
 | AF_PACKET socket creation | BLOCKED: PermissionError, errno 1, Operation not permitted | Read-only socket-create probe; no frames sent |
-| Real veth/NIC regression, slaves, seL4/sDDF, physical timing | UNRUN | Requires subsequent validation |
+| Cloud raw veth/NIC checks, slaves, seL4/sDDF, physical timing | UNRUN | Student veth TX is recorded separately |
 
 ## Problems found and resolved during development
 
@@ -53,3 +53,17 @@ using fresh ordinary and sanitizer output directories.
 The tests cover synthetic reply matching and WKC behavior; they cannot prove
 slave compatibility or real network performance. The first Linux milestone is
 reviewable, while the real raw-network validation gate remains open.
+
+
+## Veth RX helper validation (later addition)
+
+The probe and Python mock peer were added after the student's successful veth
+TX check. The expanded cloud runner passes three CTest suites, including five
+Python cases against the C probe over local socketpairs. See
+[helper test transcript](cloud-rx-helper-tests.txt). This is not execution of
+the AF_PACKET path; that remains blocked in the cloud. The student's earlier
+2/2 transcript predates this third suite and remains unchanged.
+
+The same expanded runner also passed 3/3 suites with AddressSanitizer and
+UndefinedBehaviorSanitizer: [sanitizer transcript](cloud-rx-helper-sanitizer-tests.txt).
+No sanitizer diagnostics were emitted.

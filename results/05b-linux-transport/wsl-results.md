@@ -24,12 +24,36 @@ version again. The preparation script accepted the clean pinned SOEM checkout.
 | soem_transport suite | PASS |
 | CTest total | 100% tests passed, 0 failed out of 2 |
 | Sanitizer run on WSL | UNRUN; sanitizer evidence is cloud-only |
-| Adapted AF_PACKET/veth exchange | PENDING |
+| Adapted AF_PACKET/veth TX | PASS; three frames captured on peer |
+| Adapted AF_PACKET/veth RX with a synthetic reply | PENDING |
 | Real slave exchange, seL4/sDDF, hardware timing | UNRUN |
 
 The synthetic-peer tests cover byte preservation, invalid/truncated input,
 backpressure/recovery, buffer reuse, deadlines/interruption, WKC=0 versus no
 response, retry, index matching and Linux socketpair integration. Their success
 does not demonstrate NIC/slave communication. No raw Ethernet frame was sent
-by this runner. Next check the existing veth setup before capturing the adapted
-sample's raw TX path.
+by this runner. A separate raw TX check is recorded below.
+
+## Adapted SOEM veth TX check
+
+The student first confirmed `ecat_tx@ecat_rx` and `ecat_rx@ecat_tx`, both UP
+and LOWER_UP, type veth and MTU 1500. tcpdump was `/usr/bin/tcpdump`; the adapted
+sample existed at the build path above. The peer capture and sample execution
+were run in separate terminals. See [supplied TX output](wsl-veth-tx.txt).
+
+Three 29-byte EtherType 0x88A4 frames were captured on ecat_rx. Their bytes
+match the saved Experiment 4 capture: broadcast destination, source
+01:01:01:01:01:01, BWR command 0x08, index 1. This is a comparison to historical
+bytes, not a fresh simultaneous baseline measurement. tcpdump reported three
+captured, 19 received by filter, zero dropped by kernel; capture was limited
+to three frames. These counts do not imply 19 saved packet records.
+
+The adapted sender initialized ecat_tx, reported no slaves found and exited 0.
+Its exit code alone is not a discovery success criterion. The capture provides
+the TX evidence. It does not test the master's receive path, real slave
+responses, cyclic process data, seL4 integration or real-time performance.
+The capture timestamps are retained as supplied, without deriving timing claims.
+
+Next gate: a deliberately synthetic reply on veth using the new dedicated
+probe and mock peer. Cloud tests of that helper use local socketpairs only;
+its AF_PACKET/veth execution remains pending on the student's WSL machine.

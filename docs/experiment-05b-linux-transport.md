@@ -73,7 +73,9 @@ a future platform must preserve that relationship or redesign both together.
 1. Portable wrapper/Linux implementation: tested with local datagram sockets.
 2. Adapted actual SOEM library: tested with explicit mocks and socketpair peers.
 3. Adapted SOEM sample: built; usage/adapter enumeration checked separately.
-4. Real AF_PACKET/veth TX/RX: still pending; cloud raw-socket creation is denied.
+4. AF_PACKET/veth TX: observed on student WSL; three captured frames match
+   historical Experiment 4 bytes. Synthetic RX over veth remains pending; cloud
+   raw-socket creation is denied.
 5. Student WSL ordinary reproduction: both suites passed; see the separate
    [student transcript](../results/05b-linux-transport/wsl-results.md). WSL sanitizer run is unrun.
 6. Microkit/sDDF integration, physical slaves and timing: future work.
@@ -94,3 +96,10 @@ rather than writing a new protocol implementation.
 
 [WSL commands and test list](../tests/05b-linux-transport/README.md).
 [Recorded cloud evidence](../results/05b-linux-transport/README.md).
+
+
+The veth RX helper adds a five-case local suite using the actual C probe and
+Python response filter. The filter only accepts a fixed single BRD request;
+it is not a general EtherCAT parser or slave emulator. The responder returns
+one fabricated reply and exits, with a bounded wait for the probe request.
+Student raw TX evidence is in [the WSL record](../results/05b-linux-transport/wsl-results.md).

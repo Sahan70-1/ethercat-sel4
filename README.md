@@ -48,8 +48,8 @@ READMEs and evidence remain in place. QEMU timing is not hardware timing.
 Experiment 5A is complete for its source-audit and host-check scope, with
 cloud validation and student WSL results recorded. No SOEM-to-sDDF port or
 physical slave communication is implemented yet. The first 5B Linux transport
-milestone passes cloud and student WSL synthetic tests; real veth
-validation remains pending. 5C sDDF integration is future work.
+milestone passes cloud and student WSL synthetic tests; adapted veth TX was
+observed on WSL. Synthetic-response RX over veth remains pending. 5C sDDF integration is future work.
 
 ## Project Team
 

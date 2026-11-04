@@ -31,4 +31,12 @@ if(SOEM_SOURCE)
   target_compile_options(test_soem_transport PRIVATE -Wall -Wextra -Werror -UNDEBUG)
   add_test(NAME soem_transport COMMAND test_soem_transport)
   set_tests_properties(soem_transport PROPERTIES TIMEOUT 15)
+  add_executable(veth_probe veth_probe.c)
+  target_link_libraries(veth_probe PRIVATE soem)
+  target_compile_options(veth_probe PRIVATE -Wall -Wextra -Werror)
+  find_package(Python3 3.12 REQUIRED COMPONENTS Interpreter)
+  add_test(NAME mock_peer_and_probe COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_mock_peer.py" "$<TARGET_FILE:veth_probe>")
+  set_tests_properties(mock_peer_and_probe PROPERTIES TIMEOUT 15
+    ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
 endif()

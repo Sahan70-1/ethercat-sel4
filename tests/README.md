@@ -10,7 +10,7 @@ independent. Historical folder numbers are retained to preserve existing links.
 | 3 — Virtual Ethernet | [02-virtual-ethernet](02-virtual-ethernet/README.md) | README observations; no separate saved capture |
 | 4 — SOEM Linux transmission | [03-soem-network](03-soem-network/README.md) | [Saved output and capture](../results/03-soem-network/README.md) |
 | 5A — SOEM interface audit | [05a-soem-interface](05a-soem-interface/README.md) | [Cloud checks](../results/05a-soem-interface/README.md); student WSL source inspection, build, adapter enumeration and host demos recorded; 5A scope complete |
-| 5B — Linux transport, first milestone | [05b-linux-transport](05b-linux-transport/README.md) | [Cloud synthetic tests](../results/05b-linux-transport/README.md); WSL ordinary suites passed; real raw-network gate pending |
+| 5B — Linux transport, first milestone | [05b-linux-transport](05b-linux-transport/README.md) | [Cloud synthetic tests](../results/05b-linux-transport/README.md); WSL original suites and adapted veth TX passed; veth RX pending |
 
 Experiments 1 and 2 share one folder. Consequently Experiment 4 is in a folder
 starting with `03`. It is present; it does not need duplicate source files.

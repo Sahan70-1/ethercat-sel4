@@ -14,7 +14,7 @@ python3 "$repo/tests/05b-linux-transport/prepare_soem.py" "$soem" "$output/soem"
 cmake -S "$repo/tests/05b-linux-transport" -B "$output/build" \
     -DSOEM_SOURCE="$output/soem" -DCMAKE_BUILD_TYPE=Debug \
     -DENABLE_SANITIZERS="${ENABLE_SANITIZERS:-OFF}" | tee "$output/configure.txt"
-cmake --build "$output/build" --target test_transport test_soem_transport simple_ng -j 2 \
+cmake --build "$output/build" --target test_transport test_soem_transport simple_ng veth_probe -j 2 \
     2>&1 | tee "$output/build.txt"
 ctest --test-dir "$output/build" --output-on-failure -V 2>&1 | tee "$output/tests.txt"
 echo 'PASS: 5B local transport and adapted SOEM synthetic-response checks'
