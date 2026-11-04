@@ -32,6 +32,8 @@ The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 
 
 ## Start here
 
+- [Experiment index](tests/README.md): find Experiments 1–4, 5A and the separate seL4 track.
+- [Results index](results/README.md): find the evidence for each experiment.
 - [Repository map and review](docs/repository-map.md): file locations, experiment numbering and known duplication.
 - [Experiment 5A: SOEM network interface audit](docs/experiment-05a-soem-network-audit.md).
 - [Reproduce the 5A host checks](tests/05a-soem-interface/README.md).
@@ -59,7 +61,7 @@ Existing experiments cover seL4 protection-domain communication and virtual Ethe
 
 Recorded QEMU measurements and their limitations are available under `results/sel4/`; see the repository review for the validation performed here.
 
-## Planned Experiments
+## Research roadmap (not experiment numbering)
 
 1. seL4 inter-protection-domain communication
 2. Virtual Ethernet frame communication

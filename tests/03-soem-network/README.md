@@ -1,5 +1,15 @@
 # Experiment 4: SOEM Network Interface Investigation
 
+The historical folder is named `03-soem-network` because experiments 1 and 2
+share `01-frame-handling`. This is Experiment 4 in the EtherCAT track, separate
+from seL4 Experiment 04.
+
+## Saved results
+
+See [the original SOEM output and tcpdump capture](../../results/03-soem-network/README.md).
+This experiment uses upstream SOEM's `simple_ng` sample; no separate copy of
+that program is required in this repository.
+
 ## Objective
 Investigate how the SOEM EtherCAT master transmits frames using the Linux networking interface.
 

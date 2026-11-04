@@ -3,6 +3,10 @@
 Read the [source audit](../../docs/experiment-05a-soem-network-audit.md) first.
 This is the EtherCAT research track; it is separate from seL4 Experiment 05.
 
+For guided work on your existing WSL checkout, begin with
+[the student steps](student-steps.md). Send the step 1 output before changing
+versions or running the full reproduction procedure below.
+
 ## Reproduce the host checks
 
 Requires Linux, Git, a C compiler, Make, CMake >= 3.28, and pthread/rt libraries.
