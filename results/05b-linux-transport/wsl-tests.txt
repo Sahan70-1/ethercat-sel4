@@ -1,0 +1,113 @@
+(cmake-venv) sahan@SAHAN-PC:~/FYP/deps/SOEM$ (
+  set -e
+  cd ~/FYP/ethercat-sel4
+
+  git fetch origin
+  git switch experiment-05b-linux-transport
+
+  source ~/tools/cmake-venv/bin/activate
+
+  bash tests/05b-linux-transport/run.sh ~/FYP/deps/SOEM
+)
+remote: Enumerating objects: 270, done.
+remote: Counting objects: 100% (269/269), done.
+remote: Compressing objects: 100% (183/183), done.
+remote: Total 263 (delta 129), reused 209 (delta 76), pack-reused 0 (from 0)
+Receiving objects: 100% (263/263), 1.13 MiB | 1.03 MiB/s, done.
+Resolving deltas: 100% (129/129), completed with 3 local objects.
+From github.com:Sahan70-1/ethercat-sel4
+   f29f5ee..85c9257  main                           -> origin/main
+ * [new branch]      experiment-05a-soem-interface-audit -> origin/experiment-05a-soem-interface-audit
+ * [new branch]      experiment-05b-linux-transport -> origin/experiment-05b-linux-transport
+ * [new branch]      sel4-experiments               -> origin/sel4-experiments
+branch 'experiment-05b-linux-transport' set up to track 'origin/experiment-05b-linux-transport'.
+Switched to a new branch 'experiment-05b-linux-transport'
+Output: /tmp/ethercat-05b.wXt9sH
+Prepared single-port SOEM copy: /tmp/ethercat-05b.wXt9sH/soem
+-- The C compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found Python3: /home/sahan/tools/cmake-venv/bin/python3.12 (found version "3.12.3") found components: Interpreter
+-- Configuring done (1.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/ethercat-05b.wXt9sH/build
+[ 20%] Building C object CMakeFiles/ec_transport.dir/home/sahan/FYP/ethercat-sel4/src/transport/ec_linux_transport.c.o
+[ 40%] Building C object CMakeFiles/ec_transport.dir/home/sahan/FYP/ethercat-sel4/src/transport/ec_transport.c.o
+[ 60%] Linking C static library libec_transport.a
+[ 60%] Built target ec_transport
+[ 80%] Building C object CMakeFiles/test_transport.dir/test_transport.c.o
+[100%] Linking C executable test_transport
+[100%] Built target test_transport
+[ 11%] Building C object soem/CMakeFiles/soem.dir/src/ec_base.o
+[ 11%] Building C object soem/CMakeFiles/soem.dir/src/ec_coe.o
+[ 17%] Building C object soem/CMakeFiles/soem.dir/src/ec_config.o
+[ 23%] Building C object soem/CMakeFiles/soem.dir/src/ec_dc.o
+[ 29%] Building C object soem/CMakeFiles/soem.dir/src/ec_eoe.o
+[ 35%] Building C object soem/CMakeFiles/soem.dir/src/ec_foe.o
+[ 41%] Building C object soem/CMakeFiles/soem.dir/src/ec_main.o
+[ 47%] Building C object soem/CMakeFiles/soem.dir/src/ec_print.o
+[ 52%] Building C object soem/CMakeFiles/soem.dir/src/ec_soe.o
+[ 58%] Building C object soem/CMakeFiles/soem.dir/osal/linux/osal.o
+[ 64%] Building C object soem/CMakeFiles/soem.dir/oshw/linux/oshw.o
+[ 70%] Building C object soem/CMakeFiles/soem.dir/oshw/linux/nicdrv.o
+[ 76%] Building C object soem/CMakeFiles/soem.dir/home/sahan/FYP/ethercat-sel4/src/transport/ec_transport.o
+[ 82%] Building C object soem/CMakeFiles/soem.dir/home/sahan/FYP/ethercat-sel4/src/transport/ec_linux_transport.o
+[ 88%] Linking C static library libsoem.a
+[ 88%] Built target soem
+[ 94%] Building C object CMakeFiles/test_soem_transport.dir/test_soem_transport.c.o
+[100%] Linking C executable test_soem_transport
+[100%] Built target test_soem_transport
+[ 88%] Built target soem
+[ 94%] Building C object soem/samples/simple_ng/CMakeFiles/simple_ng.dir/simple_ng.o
+[100%] Linking C executable simple_ng
+[100%] Built target simple_ng
+UpdateCTestConfiguration  from :/tmp/ethercat-05b.wXt9sH/build/DartConfiguration.tcl
+Test project /tmp/ethercat-05b.wXt9sH/build
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: linux_transport
+
+1: Test command: /tmp/ethercat-05b.wXt9sH/build/test_transport
+1: Working Directory: /tmp/ethercat-05b.wXt9sH/build
+1: Test timeout computed to be: 15
+1: PASS empty RX is AGAIN, not a frame/WKC
+1: PASS full frame lengths and byte-for-byte EtherType preservation
+1: PASS invalid TX sizes and arguments rejected
+1: PASS zero/short/oversized/truncated RX consumed and rejected
+1: PASS 256 buffer reuse cycles without duplicate RX
+1: PASS TX backpressure and recovery after drain
+1: PASS expired/future monotonic deadlines
+1: PASS interrupted wait retains original deadline
+1: PASS closed/invalid descriptor errors
+1/2 Test #1: linux_transport ..................   Passed    0.02 sec
+test 2
+    Start 2: soem_transport
+
+2: Test command: /tmp/ethercat-05b.wXt9sH/build/test_soem_transport
+2: Working Directory: /tmp/ethercat-05b.wXt9sH/build
+2: Test timeout computed to be: 15
+2: PASS actual SOEM accepts mock WKC=0 without retry; empty RX is NOFRAME
+2: PASS actual SOEM retries unanswered request then accepts mock response
+2: PASS actual SOEM buffers out-of-order mock indexes
+2: PASS truncated RX and invalid WKC offset rejected before completion
+2: PASS unexpected index and non-EtherCAT frame not completed
+2: PASS TX backpressure/error mapping and no-response deadline
+2: PASS 64 SOEM index allocate/receive/release cycles
+2: PASS invalid caller index and unsupported secondary setup rejected
+2: PASS actual SOEM through Linux socketpair TX/RX/wait with synthetic peer
+2: All responses are synthetic; no real slaves or network NIC tested
+2/2 Test #2: soem_transport ...................   Passed    0.01 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.04 sec
+PASS: 5B local transport and adapted SOEM synthetic-response checks
+NOT TESTED: AF_PACKET/veth, NIC/slave exchange, seL4/sDDF, hardware timing

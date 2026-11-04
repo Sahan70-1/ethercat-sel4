@@ -64,7 +64,8 @@ not tested VLANs, FCS/padding conventions, redundancy or replay protection.
 
 ## Next practical gate
 
-After the student repeats these tests, validate the adapted `simple_ng` over
+The student repeated both ordinary suites successfully; see [WSL evidence](../../results/05b-linux-transport/wsl-results.md).
+Next validate the adapted `simple_ng` over
 WSL veth plus tcpdump and compare against the original 5A/Experiment 4 path.
 Use fresh output files; no slaves found is not successful slave discovery.
 Cloud AF_PACKET creation currently returns EPERM, so this real Linux network
@@ -73,3 +74,20 @@ scheduling design before sDDF integration.
 
 [Design and limitations](../../docs/experiment-05b-linux-transport.md).
 [Cloud results](../../results/05b-linux-transport/README.md).
+
+## Guided veth prerequisite check (next student step)
+
+Before sending frames, run in WSL and send the output:
+
+```sh
+ip -d link show ecat_tx
+ip -d link show ecat_rx
+command -v tcpdump
+ls -l /tmp/ethercat-05b.wXt9sH/build/soem/samples/simple_ng/simple_ng
+```
+
+This inspects existing interfaces and checks the newly adapted binary. It does
+not recreate interfaces, change link state or send frames. The veth pair should
+be linked to each other and administratively UP before capture. Do not use the
+old `~/FYP/deps/SOEM/build/...` binary for the adapted regression. If temporary
+outputs were deleted, rerun the tests and use the new printed directory.

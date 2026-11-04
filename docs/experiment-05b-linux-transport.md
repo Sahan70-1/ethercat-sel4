@@ -74,7 +74,8 @@ a future platform must preserve that relationship or redesign both together.
 2. Adapted actual SOEM library: tested with explicit mocks and socketpair peers.
 3. Adapted SOEM sample: built; usage/adapter enumeration checked separately.
 4. Real AF_PACKET/veth TX/RX: still pending; cloud raw-socket creation is denied.
-5. Student WSL reproduction: pending; do not label cloud outcomes as student runs.
+5. Student WSL ordinary reproduction: both suites passed; see the separate
+   [student transcript](../results/05b-linux-transport/wsl-results.md). WSL sanitizer run is unrun.
 6. Microkit/sDDF integration, physical slaves and timing: future work.
 
 Tests exercise failure cases as well as success, retain assertion checks even

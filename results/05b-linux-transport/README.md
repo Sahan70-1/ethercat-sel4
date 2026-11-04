@@ -1,7 +1,8 @@
 # Experiment 5B — cloud evidence
 
-Scope: first single-port Linux transport milestone. Student WSL repetition and
-real AF_PACKET/veth exchange remain pending. Existing experiments are preserved.
+Scope: first single-port Linux transport milestone. Student WSL ordinary
+tests also passed: see [WSL evidence](wsl-results.md). Real AF_PACKET/veth
+exchange remains pending. Existing experiments are preserved.
 
 Host: Debian 13 x86-64; GCC 14.2.0; CMake 4.4.4; Python 3.12.14.
 SOEM source: `49fc34923b973c17700592319159af22157350c9`.
