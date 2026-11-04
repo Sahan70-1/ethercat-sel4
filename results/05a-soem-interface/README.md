@@ -52,3 +52,6 @@ sha256sum -c results/sel4/05-timer-jitter/sha256-manifest.txt
 See [repository review](../../docs/repository-map.md) for identical timer logs
 and reproduction limitations. Build outputs and downloaded dependencies remain
 outside the repository. No generated binary is committed.
+
+[Student WSL source inspection](wsl-inspection.md): checkout and function/call
+locations confirmed from supplied output; WSL build/runtime checks pending.

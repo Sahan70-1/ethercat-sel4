@@ -10,7 +10,8 @@
   The folder number differs from the experiment number because experiments
   1 and 2 share the first test folder.
 - EtherCAT experiment 5A: [cloud validation](05a-soem-interface/README.md).
-  Student WSL reproduction has not yet been recorded.
+  Student [WSL source inspection](05a-soem-interface/wsl-inspection.md) is recorded;
+  WSL build/runtime checks remain pending.
 - seL4 foundation experiments 00–05: `sel4/`, with corresponding source and
   methodology under [tests/sel4](../tests/sel4/).
 
