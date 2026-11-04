@@ -45,13 +45,41 @@ Send the output for discussion. TX passes a full frame and its length to
 `send`; RX requests a nonblocking read into a temporary buffer. Index matching
 and WKC parsing occur later, in `ecx_inframe`.
 
-## Remaining steps
+## Step 4 — response matching, waits and time
 
-1. Locate initialization, TX, RX, wait and retry functions in `nicdrv.c`.
-2. Read the Linux socket calls and OSAL timing operations in small sections.
-3. Build and run the host checks in `verify.sh` once tools and revision match.
-4. Record your commands and output separately from the cloud run, then review
-   the Linux-to-seL4 mapping together before beginning 5B.
+```sh
+cd ~/FYP/deps/SOEM
+sed -n '363,472p' oshw/linux/nicdrv.c
+sed -n '485,548p' oshw/linux/nicdrv.c
+sed -n '591,647p' oshw/linux/nicdrv.c
+sed -n '1,85p' osal/linux/osal.c
+```
 
-Status: steps 1 and 2 confirmed by student-provided terminal output; step 3
-and WSL build/runtime checks pending. See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).
+These excerpts were supplied and discussed. Monotonic deadlines and matching
+remain SOEM semantics that a future adapter must preserve.
+
+## Step 5 — fresh Linux build check
+
+Run in Ubuntu/WSL. CMake >=3.28 is required. If CMake is missing or too old,
+send the error and activate the existing CMake virtual environment before
+retrying. The fresh temporary directory preserves the existing SOEM build.
+
+```sh
+(
+  set -e
+  cd ~/FYP/deps/SOEM
+  cmake --version
+  gcc --version | head -1
+  soem_build_dir=$(mktemp -d /tmp/soem-05a.XXXXXX)
+  echo "Build directory: $soem_build_dir"
+  cmake -S . -B "$soem_build_dir" -DSOEM_BUILD_SAMPLES=ON
+  cmake --build "$soem_build_dir" --target soem simple_ng -j 2
+)
+```
+
+Send the output. Compilation does not test Ethernet exchange. Host demo and
+sample entry-point checks follow after the build; see `verify.sh` for the
+complete cloud reproduction procedure.
+
+Status: steps 1–4 confirmed from student-provided source output. WSL build and
+runtime checks pending. See the [WSL inspection record](../../results/05a-soem-interface/wsl-inspection.md).
