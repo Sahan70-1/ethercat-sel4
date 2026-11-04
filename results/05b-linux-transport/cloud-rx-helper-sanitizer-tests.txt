@@ -44,7 +44,7 @@ test 3
 
 3: Test command: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12 "/workspace/ethercat-sel4/tests/05b-linux-transport/test_mock_peer.py" "/workspace/setup-ethercat/05b-rx-sanitized/build/veth_probe"
 3: Working Directory: /workspace/setup-ethercat/05b-rx-sanitized/build
-3: Environment variables: 
+3: Environment variables:
 3:  PYTHONDONTWRITEBYTECODE=1
 3: Test timeout computed to be: 15
 3: test_actual_probe_accepts_matching_reply (__main__.MockPeerTests.test_actual_probe_accepts_matching_reply) ... ok
@@ -52,10 +52,10 @@ test 3
 3: test_actual_probe_rejects_wrong_payload (__main__.MockPeerTests.test_actual_probe_rejects_wrong_payload) ... ok
 3: test_rejects_unrelated_or_malformed (__main__.MockPeerTests.test_rejects_unrelated_or_malformed) ... ok
 3: test_reply_fields_and_padding (__main__.MockPeerTests.test_reply_fields_and_padding) ... ok
-3: 
+3:
 3: ----------------------------------------------------------------------
 3: Ran 5 tests in 0.533s
-3: 
+3:
 3: OK
 3/3 Test #3: mock_peer_and_probe ..............   Passed    0.62 sec
 

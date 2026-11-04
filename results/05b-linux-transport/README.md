@@ -67,3 +67,6 @@ the AF_PACKET path; that remains blocked in the cloud. The student's earlier
 The same expanded runner also passed 3/3 suites with AddressSanitizer and
 UndefinedBehaviorSanitizer: [sanitizer transcript](cloud-rx-helper-sanitizer-tests.txt).
 No sanitizer diagnostics were emitted.
+
+Trailing whitespace in the two helper CTest transcripts was normalized;
+all output text and results are retained.
