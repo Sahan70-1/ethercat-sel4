@@ -1,9 +1,9 @@
 # Experiment 5C: environment evidence
 
-Status: student WSL host-tool versions recorded; official SDK archive, files
-and command-line help checked separately in the cloud. SDK installation on
-student WSL is pending. No driver build, QEMU boot, raw-frame exchange or SOEM
-execution on seL4 has been performed for 5C.
+Status: student WSL host tools and SDK checks passed. A new Clang build and
+boot of the original UART demo passed in the cloud; student WSL boot is next.
+No network driver, raw-frame exchange or SOEM execution on seL4 has been tested
+for 5C. The boot check does not complete the network-driver milestone.
 
 ## Initial student WSL inventory
 
@@ -96,5 +96,72 @@ reading the SDK's `VERSION` file; no `microkit --version` option is assumed.
 The archive and extracted SDK remain outside the project repository under
 `/workspace/setup-ethercat/microkit-2.4.0-check/`.
 
-This checks the host executable and expected guest files. It does not build or
-boot an image, qualify the driver, or establish Microkit/sDDF compatibility.
+These SDK-file/help checks did not boot an image or establish Microkit/sDDF
+compatibility. A separate later UART boot check is recorded below.
+
+## Student SDK verification
+
+The student supplied further terminal output showing:
+
+- The downloaded archive SHA-256 matches
+  `10bc305713965a01e52b6c7567cea4952b0cc4dde4befa2e6e72b8dce2715f6b`.
+- `/home/sahan/tools/microkit-sdk-2.4.0` exists.
+- With `MICROKIT_SDK="$HOME/tools/microkit-sdk-2.4.0"`, reading `VERSION`
+  prints `2.4.0` and running `bin/microkit --help` displays usage and lists
+  `qemu_virt_aarch64`.
+
+This establishes the student's download checksum and SDK host-tool check.
+It does not demonstrate an image build or boot on the student's WSL machine.
+The earlier attempt to execute the example output line ending in `: OK` was
+a shell input mistake, not a checksum failure; the subsequent real checksum
+command provides the verification evidence.
+
+## Cloud Clang build and UART boot
+
+The new [boot runner](../../tests/05c-sel4-network-driver/README.md) was executed
+against the original teammate UART source and system description, unchanged.
+The first build failed because strict C11 rejects the SDK's GNU `asm`
+declarations. Changing the runner's language mode to GNU C11 resolved it;
+no source assertions were disabled and the UART/SDK sources were not edited.
+
+Final run: `/workspace/setup-ethercat/05c-boot-v2`. Host: Debian 13 x86-64,
+Clang/LLD 19.1.7, QEMU 10.0.13 and Microkit SDK 2.4.0. The student's WSL
+Clang/LLD 18.1.3 and QEMU 8.2.2 still need the same boot reproduction.
+
+The cloud had no sudo or compiler/QEMU on PATH. Official Debian packages were
+downloaded and extracted into the user-owned
+`/workspace/setup-ethercat/host-tools/root/`; system package configuration was
+not changed. Package versions are in [cloud-host-tools.txt](cloud-host-tools.txt).
+The run used:
+
+```sh
+PATH=/workspace/setup-ethercat/host-tools/root/usr/lib/llvm-19/bin:/workspace/setup-ethercat/host-tools/root/usr/bin:$PATH \
+LD_LIBRARY_PATH=/workspace/setup-ethercat/host-tools/root/usr/lib/x86_64-linux-gnu \
+bash tests/05c-sel4-network-driver/run_boot.sh \
+  /workspace/setup-ethercat/microkit-2.4.0-check/sdk/microkit-sdk-2.4.0 \
+  /workspace/setup-ethercat/05c-boot-v2
+```
+
+| Check | Observed outcome |
+|---|---|
+| Clang compile / LLD link | PASS; no compiler diagnostics |
+| SDK image builder | PASS; 36 root objects; 2.62 MiB loader image |
+| seL4 kernel boot | PASS; reached user space |
+| Microkit monitor | PASS; startup marker observed |
+| Original UART PD | PASS; `SERIAL SERVER: starting` observed |
+| Bounded run | QEMU timeout status 124 after 15 seconds; overall runner exited 0 |
+| Network driver, Ethernet, SOEM, slaves, hardware timing | UNRUN |
+
+Evidence: [environment/source hashes](cloud-boot/environment.txt),
+[build output](cloud-boot/build.txt), [boot log](cloud-boot/qemu-boot.log),
+[runner result](cloud-boot/result.txt). The runner was uncommitted during this
+run; its recorded SHA-256 identifies the final script. The logged project HEAD
+is the preceding commit. Only documentation/evidence was added afterward.
+Boot-log CRLF line endings were normalized to LF; all log lines are retained.
+Original experiments and historical logs were not overwritten.
+
+The GIC target-ID inference warning is retained; the same warning appears in
+the original teammate boot. Startup markers plus the bounded timeout establish
+this functional boot only. A timeout by itself is not success, and the 15-second
+test duration is not a timing or reliability measurement. No network device was
+attached (`-nic none`).

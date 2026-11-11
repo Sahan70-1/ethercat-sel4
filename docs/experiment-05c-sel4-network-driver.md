@@ -2,10 +2,10 @@
 
 Status on 2026-11-11: scope/literature review and student WSL host-tool versions
 recorded. QEMU 8.2.2, Clang/LLD 18.1.3, DTC 1.7.0 and Python 3.12.3 are
-available. SDK download/installation on WSL is next; its official archive,
-expected guest files and host tool help were checked separately in the cloud.
-No 5C driver image has been built or booted, and no seL4 network TX/RX or SOEM
-startup is claimed.
+available. Student SDK checksum/version/help checks passed. A Clang rebuild
+and boot of the original UART demo passed in the cloud; student WSL boot is
+next. No network driver has been built or tested and no seL4 network TX/RX
+or SOEM startup is claimed.
 Work is on `experiment-05c-sel4-network-driver`, based on the completed Linux
 milestone `85ae914`. Nothing has been merged into main.
 
@@ -200,7 +200,18 @@ cat "$MICROKIT_SDK/VERSION"
 
 Expected: version `2.4.0`, followed by help listing `qemu_virt_aarch64`.
 Send the checksum result, version and help output. The export applies to this
-shell session; no shell startup files are modified. SDK verification on WSL
-is still pending. After that, establish a basic seL4/Microkit boot on this
-machine before network-driver tests. No driver implementation choice is
-implied by installing the SDK.
+shell session; no shell startup files are modified. The student subsequently
+passed these checks; see [SDK verification](../results/05c-sel4-network-driver/README.md#student-sdk-verification).
+No driver implementation choice is implied by installing the SDK.
+
+## Next student step: basic Clang build and seL4 boot
+
+Use the [5C boot runner](../tests/05c-sel4-network-driver/README.md), which
+rebuilds the teammate's original UART demo without modifying or duplicating
+its C source/system description. It uses the installed Clang/LLD rather than
+requiring the original experiment's separate AArch64 GCC toolchain.
+
+The cloud build/boot passed with the recorded versions; student WSL reproduction
+is next. This precheck establishes the local build/boot foundation, not a
+network driver or completion of 5C. The runner deliberately attaches no NIC.
+Keep logs and complete this boot check before network-driver TX/RX work.

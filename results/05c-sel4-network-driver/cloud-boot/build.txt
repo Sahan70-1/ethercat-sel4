@@ -1,0 +1,3 @@
+MICROKIT|CAPDL SPEC: number of root objects = 36, spec footprint = 5.28 KiB
+MICROKIT|INITIAL TASK: memory size = 368 KiB
+MICROKIT|LOADER: image file size = 2.62 MiB

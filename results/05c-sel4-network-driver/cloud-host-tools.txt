@@ -1,0 +1,17 @@
+Official Debian packages extracted into a user-owned workspace directory.
+Source repository: https://deb.debian.org/debian/pool/main/
+No system installation or sudo was used.
+
+libaio1t64: 0.3.113-8+b1
+libcapstone5: 5.0.7-1~deb13u1
+clang-19: 1:19.1.7-3+b1
+libfdt1: 1.7.2-2+b1
+libclang-common-19-dev: 1:19.1.7-3+b1
+libclang-cpp19: 1:19.1.7-3+b1
+libdaxctl1: 81-1
+libndctl6: 81-1
+lld-19: 1:19.1.7-3+b1
+libpmem1: 1.13.1-1.1+b1
+qemu-system-arm: 1:10.0.13+ds-0+deb13u1
+liburing2: 2.9-1
+libvdeplug2t64: 4.0.1-5.1+b1
