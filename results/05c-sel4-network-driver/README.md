@@ -1,8 +1,10 @@
 # Experiment 5C: environment evidence
 
-Status: student WSL host tools and SDK checks passed. A new Clang build and
-boot of the original UART demo passed in the cloud; the first student WSL
-image build passed but boot check failed. A separate diagnostic is next.
+Status: student WSL host tools and SDK checks passed. The original UART demo
+boots in the cloud and in the student's later WSL file-console diagnostic.
+The first WSL boot check failed with an empty log; that failure is retained.
+The updated runner passed a fresh cloud build/boot with QEMU 8.2.2. Its fresh
+WSL run is pending; the cause of the initial empty log remains unconfirmed.
 No network driver, raw-frame exchange or SOEM execution on seL4 has been tested
 for 5C. The boot check does not complete the network-driver milestone.
 
@@ -112,7 +114,8 @@ The student supplied further terminal output showing:
   `qemu_virt_aarch64`.
 
 This establishes the student's download checksum and SDK host-tool check.
-The later image build and failed WSL boot check are recorded below.
+The later image build, first failed boot check and successful diagnostic are
+recorded below.
 The earlier attempt to execute the example output line ending in `: OK` was
 a shell input mistake, not a checksum failure; the subsequent real checksum
 command provides the verification evidence.
@@ -125,7 +128,7 @@ The first build failed because strict C11 rejects the SDK's GNU `asm`
 declarations. Changing the runner's language mode to GNU C11 resolved it;
 no source assertions were disabled and the UART/SDK sources were not edited.
 
-Final run: `/workspace/setup-ethercat/05c-boot-v2`. Host: Debian 13 x86-64,
+Original runner run: `/workspace/setup-ethercat/05c-boot-v2`. Host: Debian 13 x86-64,
 Clang/LLD 19.1.7, QEMU 10.0.13 and Microkit SDK 2.4.0. The student's later WSL
 attempt with Clang/LLD 18.1.3 and QEMU 8.2.2 built the image but failed the boot
 check, as recorded below.
@@ -157,8 +160,9 @@ bash tests/05c-sel4-network-driver/run_boot.sh \
 Evidence: [environment/source hashes](cloud-boot/environment.txt),
 [build output](cloud-boot/build.txt), [boot log](cloud-boot/qemu-boot.log),
 [runner result](cloud-boot/result.txt). The runner was uncommitted during this
-run; its recorded SHA-256 identifies the final script. The logged project HEAD
-is the preceding commit. Only documentation/evidence was added afterward.
+run; its recorded SHA-256 identifies the original script committed in
+`af4aa7c`. The logged project HEAD is the preceding commit. The later console
+changes and their fresh cloud test are documented separately below.
 Boot-log CRLF line endings were normalized to LF; all log lines are retained.
 Original experiments and historical logs were not overwritten.
 
@@ -178,16 +182,17 @@ source/system SHA-256 values match the cloud run. Output directory:
 Compilation/link and SDK image generation completed: 36 root objects and a
 2.62 MiB loader image. The timeout returned 124, but no QEMU text appeared
 before the runner reported its first missing boot marker and exited 1.
-The raw `qemu-boot.log`, image hash and runtime debug logs were not supplied.
+At this first submission, the raw `qemu-boot.log`, image hash and runtime debug
+logs were not supplied.
 This is a failed WSL boot check. It does not demonstrate kernel, monitor or
 UART startup; timeout by itself does not establish execution of the guest.
 
-Preserve that directory. The next
+The subsequent
 [diagnostic](../../tests/05c-sel4-network-driver/README.md#diagnose-the-first-wsl-silent-boot)
-reuses its existing image and captures UART, QEMU stderr and limited debug
-output separately, with no interactive console. It also uses a 30-second
-foreground timeout. The user result and root cause remain unknown. Do not
-advance to network-driver work until startup is verified.
+reused its existing image and captured UART, QEMU stderr and limited debug
+output separately, with no interactive console and a 30-second foreground
+timeout. That diagnostic passed, as recorded below. The original failed run
+and its artifacts were not replaced.
 
 ## Cloud comparison with Ubuntu QEMU 8.2.2
 
@@ -211,5 +216,80 @@ The file-console run retained 2499 UART bytes, 71 stderr bytes and 1726 debug
 bytes before line-ending normalization. Evidence is under
 [cloud-diagnostics](cloud-diagnostics/environment.txt). These observations
 show the cloud image boots under the tested QEMU versions/console modes;
-they do not explain or fix the WSL failure. The cloud image was built with
-Clang 19.1.7; the student's image, built with Clang 18.1.3, has not been examined.
+they do not explain the WSL failure. The cloud image was built with Clang
+19.1.7. At the time of this comparison the student's image hash was unknown;
+the later WSL submission below reports the same SHA-256 despite using Clang
+18.1.3. The actual WSL image file has not been uploaded.
+
+## Student WSL diagnostic: boot passed
+
+Provenance: the student supplied [this diagnostic transcript](wsl-boot-diagnostic.txt)
+in chat on 2026-11-11. Codex did not execute commands on the student's machine.
+The pasted command echo contains a garbled line before the diagnostic output;
+it is retained as supplied. Only CRLF line endings were normalized to LF.
+Use the [documented command](../../tests/05c-sel4-network-driver/README.md#diagnose-the-first-wsl-silent-boot)
+for reproduction, not the transcript's command echo.
+
+The diagnostic reused `/tmp/ethercat-05c-boot.ujkjn9/loader.img` from the failed
+attempt without a rebuild. Its supplied SHA-256 is
+`408f1aed9f5100d9a6c217a29f2b53224408b9e90e48300362572f1bee36c8ea`,
+matching the image used in the cloud comparisons. The original `qemu-boot.log`
+was confirmed to be zero bytes. New outputs were saved under
+`/tmp/ethercat-05c-diagnostic.4fssVA`.
+
+| Check | Supplied result |
+|---|---|
+| UART log size | 2499 bytes |
+| QEMU stderr log size | 71 bytes; termination by signal 15 from `timeout` |
+| QEMU debug log size | 1726 bytes; CPU-reset diagnostic tail supplied |
+| seL4 kernel boot | `Booting all finished, dropped to user space` |
+| Microkit monitor | `MON\|INFO: Microkit Monitor started!` |
+| Original UART PD | `SERIAL SERVER: starting` |
+| Bounded diagnostic command | Exit 124 after the configured 30-second timeout |
+
+Outcome: **PASS for this UART boot diagnostic**. The three startup markers
+establish execution; timeout status 124 alone would not. The GIC target-ID
+inference warning is retained, as in the prior cloud and teammate runs.
+Network-driver TX/RX, SOEM execution, actual slaves and hardware timing remain
+untested in 5C. This is not a completion claim for the whole experiment.
+
+The successful attempt changes console routing, monitor/input handling,
+foreground timeout handling, timeout duration and debug logging together.
+It establishes a working launch configuration, but does not isolate which
+change resolved the earlier silent run or prove its underlying cause.
+
+## Updated runner: fresh cloud build and boot passed
+
+`run_boot.sh` now uses the diagnostic's file-console configuration, no terminal
+input or interactive monitor, a 30-second foreground timeout, and separate
+UART/stderr/debug logs. It records the generated image hash and checks the
+same three startup markers. Monitor errors, kernel panics and assertion-failure
+messages in UART or stderr fail the check. The original UART C source/system
+and all prior evidence remain unchanged.
+
+A fresh run in `/workspace/setup-ethercat/05c-boot-file-console` compiled,
+linked and built an image successfully, then observed all three markers.
+QEMU timeout status was 124 and the **overall runner exited 0**. Tested on
+Debian 13 x86-64 with Clang/LLD 19.1.7, Microkit SDK 2.4.0 and the extracted
+Ubuntu QEMU 8.2.2 binary described above. This is a cloud test, not a fresh
+WSL execution. The generated image SHA-256 again matches the student's
+diagnostic image.
+
+Reproduction command for that cloud tool layout:
+
+```sh
+PATH=/workspace/setup-ethercat/host-tools/root/usr/lib/llvm-19/bin:/workspace/setup-ethercat/host-tools/ubuntu8/usr/bin:/workspace/setup-ethercat/host-tools/root/usr/bin:$PATH \
+LD_LIBRARY_PATH=/workspace/setup-ethercat/host-tools/ubuntu8/lib/x86_64-linux-gnu:/workspace/setup-ethercat/host-tools/ubuntu8/usr/lib/x86_64-linux-gnu:/workspace/setup-ethercat/host-tools/root/usr/lib/x86_64-linux-gnu \
+bash tests/05c-sel4-network-driver/run_boot.sh \
+  /workspace/setup-ethercat/microkit-2.4.0-check/sdk/microkit-sdk-2.4.0 \
+  /workspace/setup-ethercat/05c-boot-file-console
+```
+
+Evidence: [environment and hashes](cloud-boot-file-console/environment.txt),
+[build](cloud-boot-file-console/build.txt), [UART](cloud-boot-file-console/qemu-boot.log),
+[stderr](cloud-boot-file-console/qemu-stderr.log), [debug](cloud-boot-file-console/qemu-debug.log),
+[result](cloud-boot-file-console/result.txt). CRLF line endings are normalized;
+all log text is retained. The recorded HEAD is `d8e0d9d` because the runner
+change was uncommitted during this test; its SHA-256 identifies the tested
+script. The student's next step is a fresh run of this updated runner using
+the [WSL instructions](../../tests/05c-sel4-network-driver/README.md#run-on-student-wsl).

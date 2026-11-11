@@ -55,10 +55,10 @@ cloud and student WSL, adapted veth TX was captured, and the student verified
 synthetic-response RX over veth with payload 0x0002, WKC=2 and probe exit 0.
 See the [student evidence](results/05b-linux-transport/wsl-results.md).
 5C scope/literature review and student SDK checks are recorded. A basic Clang
-build/UART boot check passed in the cloud. The first student WSL image build
-passed but its boot check failed; a
-[separate diagnostic](tests/05c-sel4-network-driver/README.md#diagnose-the-first-wsl-silent-boot)
-is next.
+build/UART boot check passed in the cloud. After the first WSL boot check
+failed with an empty log, a [file-console diagnostic](results/05c-sel4-network-driver/README.md#student-wsl-diagnostic-boot-passed)
+booted the same image and confirmed kernel, monitor and UART PD startup.
+The updated runner passed in the cloud with QEMU 8.2.2; a fresh WSL run is next.
 The proposed order is network-driver TX/RX in seL4/QEMU, then SOEM platform
 support and integration. Existing sDDF
 VirtIO-net is a candidate/reference; reuse versus a new driver implementation

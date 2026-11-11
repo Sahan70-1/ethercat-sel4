@@ -11,7 +11,7 @@ independent. Historical folder numbers are retained to preserve existing links.
 | 4 — SOEM Linux transmission | [03-soem-network](03-soem-network/README.md) | [Saved output and capture](../results/03-soem-network/README.md) |
 | 5A — SOEM interface audit | [05a-soem-interface](05a-soem-interface/README.md) | [Cloud checks](../results/05a-soem-interface/README.md); student WSL source inspection, build, adapter enumeration and host demos recorded; 5A scope complete |
 | 5B — Linux transport, first milestone | [05b-linux-transport](05b-linux-transport/README.md) | [Cloud synthetic tests](../results/05b-linux-transport/README.md); WSL 3/3 local suites, adapted veth TX and synthetic veth RX passed; Linux scope complete |
-| 5C — seL4 network driver and SOEM | [Preparation, boot runner and diagnostics](05c-sel4-network-driver/README.md), [scope](../docs/experiment-05c-sel4-network-driver.md) | [Student SDK/cloud UART boot](../results/05c-sel4-network-driver/README.md) passed; WSL image generation passed but first boot check failed; diagnosis next; network/SOEM unrun |
+| 5C — seL4 network driver and SOEM | [Preparation, boot runner and diagnostics](05c-sel4-network-driver/README.md), [scope](../docs/experiment-05c-sel4-network-driver.md) | [Cloud UART boot and WSL diagnostic](../results/05c-sel4-network-driver/README.md) passed; first WSL failure retained; updated runner passed in cloud, fresh WSL run pending; network/SOEM unrun |
 
 Experiments 1 and 2 share one folder. Consequently Experiment 4 is in a folder
 starting with `03`. It is present; it does not need duplicate source files.

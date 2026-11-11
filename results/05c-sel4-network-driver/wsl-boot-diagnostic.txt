@@ -1,0 +1,111 @@
+sahan@SAHAN-PC:~/FYP/ethercat-sel4$ (
+  set +e
+  image=/tmp/ethercat-05c-boot.ujkjn9/loader.img
+
+  if [ ! -f "$image" ]; then
+    echo "Previous image is missing; send this message before rebuilding."
+    exit 1
+  fi
+
+  diagnostic_dir=$(mktemp -d /tmp/ethercat-05c-diagnostic.XXXXXX)
+  echo "Diagnostic directory: $diagnostic_dir"
+  wc -c /tmp/ethercat-05c-boot.ujkjn9/qemu-boot.log
+  sha256sum "$image"
+
+  timeout --foreground --signal=TERM --kill-after=3s 30s qemu-system-aarch64 \
+    -machine virt,virtualization=on -cpu cortex-a53 -accel tcg -m size=2G \
+    -display none -monitor none -serial "file:$diagnostic_dir/uart.log" -nic none \
+    -device "loader,file=$image,addr=0x70000000,cpu-num=0" \
+    -d guest_errors,unimp,cpu_reset -D "$diagnostic_dir/qemu-debug.log" \
+    </dev/null > "$diagnostic_dir/qemu-stderr.log" 2>&1
+
+  diagnostic_status=$?
+  echo "Diagnostic QEMU exit status: $diagnostic_status"
+  wc -c "$diagnostic_dir"/*.log
+) tail -n 40 "$diagnostic_dir/qemu-debug.log"_dir/qemu-stderr.log"
+Diagnostic directory: /tmp/ethercat-05c-diagnostic.4fssVA
+0 /tmp/ethercat-05c-boot.ujkjn9/qemu-boot.log
+408f1aed9f5100d9a6c217a29f2b53224408b9e90e48300362572f1bee36c8ea  /tmp/ethercat-05c-boot.ujkjn9/loader.img
+Diagnostic QEMU exit status: 124
+1726 /tmp/ethercat-05c-diagnostic.4fssVA/qemu-debug.log
+  71 /tmp/ethercat-05c-diagnostic.4fssVA/qemu-stderr.log
+2499 /tmp/ethercat-05c-diagnostic.4fssVA/uart.log
+4296 total
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b4000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x000000000025c000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x0000000000001520   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602aa000   size: 0x0000000000008000   offset: 0x00000000002887c0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b3000   size: 0x00000000000001f8   offset: 0x00000000002907c0   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b4000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+SERIAL SERVER: starting
+qemu-system-aarch64: terminating on signal 15 from pid 13142 (timeout)
+CPU Reset (CPU 0)
+R00=00000000 R01=00000000 R02=00000000 R03=00000000
+R04=00000000 R05=00000000 R06=00000000 R07=00000000
+R08=00000000 R09=00000000 R10=00000000 R11=00000000
+R12=00000000 R13=00000000 R14=00000000 R15=00000000
+PSR=40000000 -Z-- A usr26
+CPU Reset (CPU 0)
+ PC=0000000000000000 X00=0000000000000000 X01=0000000000000000
+X02=0000000000000000 X03=0000000000000000 X04=0000000000000000
+X05=0000000000000000 X06=0000000000000000 X07=0000000000000000
+X08=0000000000000000 X09=0000000000000000 X10=0000000000000000
+X11=0000000000000000 X12=0000000000000000 X13=0000000000000000
+X14=0000000000000000 X15=0000000000000000 X16=0000000000000000
+X17=0000000000000000 X18=0000000000000000 X19=0000000000000000
+X20=0000000000000000 X21=0000000000000000 X22=0000000000000000
+X23=0000000000000000 X24=0000000000000000 X25=0000000000000000
+X26=0000000000000000 X27=0000000000000000 X28=0000000000000000
+X29=0000000000000000 X30=0000000000000000  SP=0000000000000000
+PSTATE=400003c9 -Z-- EL2h
+CPU Reset (CPU 0)
+ PC=0000000000000000 X00=0000000000000000 X01=0000000000000000
+X02=0000000000000000 X03=0000000000000000 X04=0000000000000000
+X05=0000000000000000 X06=0000000000000000 X07=0000000000000000
+X08=0000000000000000 X09=0000000000000000 X10=0000000000000000
+X11=0000000000000000 X12=0000000000000000 X13=0000000000000000
+X14=0000000000000000 X15=0000000000000000 X16=0000000000000000
+X17=0000000000000000 X18=0000000000000000 X19=0000000000000000
+X20=0000000000000000 X21=0000000000000000 X22=0000000000000000
+X23=0000000000000000 X24=0000000000000000 X25=0000000000000000
+X26=0000000000000000 X27=0000000000000000 X28=0000000000000000
+X29=0000000000000000 X30=0000000000000000  SP=0000000000000000
+PSTATE=400003c9 -Z-- EL2h

@@ -42,7 +42,10 @@ echo "Runner exit status: $?"
 
 The script cross-compiles the UART program for AArch64, links with the SDK
 library, builds `loader.img` and boots it with QEMU TCG. It stops QEMU
-automatically after 15 seconds, so manual QEMU exit is not required.
+automatically after 30 seconds, so manual QEMU exit is not required. The UART
+writes directly to `qemu-boot.log`; QEMU has no interactive monitor or terminal
+input. Its stderr and limited guest-error/CPU-reset diagnostics have separate
+logs. The console output is printed after QEMU stops.
 
 Expected: the final PASS line confirms the kernel reached user space, the
 Microkit monitor started and the original UART PD printed its startup marker.
@@ -53,21 +56,25 @@ kernel panics and assertion-failure messages. These log checks verify this
 startup exercise; they are not a general correctness or fault-isolation proof.
 
 The first student WSL attempt built the image but failed this boot check:
-timeout status 124, no QEMU text in the supplied transcript, missing first
-boot marker, runner exit 1. See the [failed run](../../results/05c-sel4-network-driver/wsl-boot-failure.txt).
-Use the diagnostic below before proceeding to network-driver work.
+timeout status 124, an empty console log and runner exit 1. The subsequent
+[diagnostic](../../results/05c-sel4-network-driver/README.md#student-wsl-diagnostic-boot-passed)
+booted that same image and showed all three markers. The runner now uses those
+working file-console settings and passed a fresh cloud build/boot with QEMU
+8.2.2. Repeating this updated runner on WSL is the next reproducibility check;
+its WSL result has not yet been supplied.
 
 Send the printed output directory, complete terminal output and runner exit
-status. Stop at an error and retain its output. No success on the student's
-machine is claimed until those results are received.
+status. Stop at an error and retain its output. The successful WSL diagnostic
+establishes UART startup, not a completed network-driver experiment.
 
 ## Artifacts and limitations
 
 Each default run creates a new `/tmp/ethercat-05c-boot.*` directory. An optional
 second argument chooses a new, nonexistent output directory. Outputs are
 `environment.txt`, `build.txt`, `serial_server.o`, `serial_server.elf`,
-`loader.img`, `report.txt`, `qemu-boot.log` and `result.txt`. Logs include tool
-versions and hashes of the runner, UART source and system description.
+`loader.img`, `report.txt`, `qemu-boot.log`, `qemu-stderr.log`, `qemu-debug.log`
+and `result.txt`. Logs include tool versions and hashes of the runner, UART
+source, system description and generated image.
 Build outputs stay outside the checkout; no existing results are overwritten.
 
 GNU C11 is required because seL4 headers use GNU `asm` register declarations.
@@ -84,12 +91,17 @@ it is retained in the logs. Its presence alone does not fail this startup check.
 
 ## Diagnose the first WSL silent boot
 
+Historical reproduction command: the student has now run this and supplied a
+[successful boot transcript](../../results/05c-sel4-network-driver/wsl-boot-diagnostic.txt).
+Use the updated runner above for the next fresh build. The original temporary
+image path below is specific to that diagnostic session.
+
 This reuses `/tmp/ethercat-05c-boot.ujkjn9/loader.img` without rebuilding or
 changing the original run. Confirm its old console log size, then capture the
 UART directly to a new file, QEMU stderr separately, and limited guest-error/
 CPU-reset diagnostics. QEMU has no interactive monitor or terminal input in
-this attempt. The timeout increases from 15 to 30 seconds. These changes are
-a diagnostic comparison, not a confirmed fix or an isolated root-cause test.
+this attempt. The timeout increases from 15 to 30 seconds. Several settings
+change together, so success does not identify the cause of the earlier silent run.
 
 ```sh
 (
@@ -118,12 +130,13 @@ a diagnostic comparison, not a confirmed fix or an isolated root-cause test.
 )
 ```
 
-Send the complete output. Status 124 means only that the timeout elapsed;
-inspect the actual startup messages before calling boot successful. Missing
-images, startup errors and empty logs are useful diagnostic results too.
+Status 124 means only that the timeout elapsed; the supplied transcript's
+three startup messages establish this diagnostic's successful boot. The first
+log was confirmed to contain zero bytes; its failed check remains recorded.
 
 Cloud comparison: the original image boots with the official Ubuntu QEMU
 8.2.2 package as well as QEMU 10.0.13. This file-console diagnostic captured
 all three startup markers with QEMU 8.2.2. It still uses the cloud-built image
 and cloud host libraries, so it does not reproduce the entire WSL environment.
-The WSL diagnostic result and root cause remain unknown.
+The later WSL diagnostic also passed, using an image whose supplied SHA-256
+matches the cloud image. The cause of the first empty log remains unconfirmed.

@@ -1,0 +1,3 @@
+QEMU timeout command exit status: 124
+PASS: seL4 boot, Microkit monitor and original UART PD startup observed
+NOT TESTED: network driver, Ethernet TX/RX, SOEM, slaves or hardware timing

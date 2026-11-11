@@ -1,0 +1,12 @@
+Output: /workspace/setup-ethercat/05c-boot-file-console
+SDK: /workspace/setup-ethercat/microkit-2.4.0-check/sdk/microkit-sdk-2.4.0
+SDK version: 2.4.0
+Project HEAD: d8e0d9db63491c06ae643439f40aaea420ceb84e
+Linux x86_64
+Debian clang version 19.1.7 (3+b1)
+Debian LLD 19.1.7 (compatible with GNU linkers)
+QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+991ea01d6dd19f17b4b5ff7c21b31fde4ac39a05c8d83c24700810567864500c  tests/05c-sel4-network-driver/run_boot.sh
+c4563eedc1312a29411bda6f8d67971bb0cdc992dd2b504e34e9ddadbb0624fb  /workspace/ethercat-sel4/tests/sel4/00-microkit-hello-world/serial_server.c
+e77f40aad7893645c6193e318d938ce8ff1ad4cf0cd38532c5fabeebf906b174  /workspace/ethercat-sel4/tests/sel4/00-microkit-hello-world/system.system
+408f1aed9f5100d9a6c217a29f2b53224408b9e90e48300362572f1bee36c8ea  /workspace/setup-ethercat/05c-boot-file-console/loader.img

@@ -54,17 +54,25 @@ ld.lld -L"$board_dir/lib" "$output/serial_server.o" \
     --search-path "$output" --board qemu_virt_aarch64 --config debug \
     -o "$output/loader.img" -r "$output/report.txt" \
     2>&1 | tee -a "$output/build.txt"
+sha256sum "$output/loader.img" | tee -a "$output/environment.txt"
 
-echo 'Booting in QEMU TCG for up to 15 seconds; it will stop automatically.'
+echo 'Booting in QEMU TCG for up to 30 seconds; it will stop automatically.'
+# Capture UART directly, without an interactive stdio monitor or terminal input.
+# These settings booted the student's original image after its first silent run.
 set +e
-timeout --signal=TERM --kill-after=3s 15s qemu-system-aarch64 \
+timeout --foreground --signal=TERM --kill-after=3s 30s qemu-system-aarch64 \
     -machine virt,virtualization=on -cpu cortex-a53 -accel tcg \
-    -m size=2G -nographic -serial mon:stdio -nic none \
+    -m size=2G -display none -monitor none \
+    -serial "file:$output/qemu-boot.log" -nic none \
     -device "loader,file=$output/loader.img,addr=0x70000000,cpu-num=0" \
-    > "$output/qemu-boot.log" 2>&1
+    -d guest_errors,unimp,cpu_reset -D "$output/qemu-debug.log" \
+    </dev/null > "$output/qemu-stderr.log" 2>&1
 boot_status=$?
 set -e
-cat "$output/qemu-boot.log"
+if [ -f "$output/qemu-boot.log" ]; then
+    cat "$output/qemu-boot.log"
+fi
+cat "$output/qemu-stderr.log"
 printf 'QEMU timeout command exit status: %s\n' "$boot_status" | tee "$output/result.txt"
 if [ "$boot_status" -ne 124 ]; then
     echo 'FAIL: expected bounded timeout of the continuously running UART demo' >&2
@@ -77,7 +85,8 @@ for marker in 'Booting all finished, dropped to user space' \
         exit 1
     fi
 done
-if grep -Eqi 'MON\|ERROR|Kernel panic|assertion.*failed' "$output/qemu-boot.log"; then
+if grep -Eqi 'MON\|ERROR|Kernel panic|assertion.*failed' \
+    "$output/qemu-boot.log" "$output/qemu-stderr.log"; then
     echo 'FAIL: boot log contains a monitor error, kernel panic or assertion failure' >&2
     exit 1
 fi

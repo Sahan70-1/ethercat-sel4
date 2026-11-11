@@ -4,7 +4,10 @@ Status on 2026-11-11: scope/literature review and student WSL host-tool versions
 recorded. QEMU 8.2.2, Clang/LLD 18.1.3, DTC 1.7.0 and Python 3.12.3 are
 available. Student SDK checksum/version/help checks passed. A Clang rebuild
 and boot of the original UART demo passed in the cloud. Student WSL image
-generation passed but its first boot check failed; diagnostics are next.
+generation passed; after its first silent boot check failed, a file-console
+diagnostic booted the same image and showed kernel, monitor and UART PD startup.
+The runner now uses those settings and has passed in the cloud with QEMU 8.2.2;
+a fresh WSL run of the updated runner is next.
 No network driver has been built or tested and no seL4 network TX/RX
 or SOEM startup is claimed.
 Work is on `experiment-05c-sel4-network-driver`, based on the completed Linux
@@ -212,9 +215,11 @@ rebuilds the teammate's original UART demo without modifying or duplicating
 its C source/system description. It uses the installed Clang/LLD rather than
 requiring the original experiment's separate AArch64 GCC toolchain.
 
-The cloud build/boot passed with the recorded versions. The first student
-WSL build passed but the boot check failed without startup markers. Use the
-[separate diagnostic](../tests/05c-sel4-network-driver/README.md#diagnose-the-first-wsl-silent-boot)
-on that existing image and preserve the failure logs. This precheck is a
+The cloud build/boot and the student's subsequent file-console diagnostic
+passed; the [first WSL failure and later success](../results/05c-sel4-network-driver/README.md#student-wsl-diagnostic-boot-passed)
+are both preserved. Repeat the updated runner on WSL to capture a fresh build
+and automated marker checks using the working settings. This precheck is a
 local build/boot foundation, not a network driver or completion of 5C.
-The runner deliberately attaches no NIC. Verify startup before network TX/RX.
+The runner deliberately attaches no NIC. The next development milestone is
+the driver design and raw-frame TX/RX, with the implementation choice recorded
+before integrating SOEM.
