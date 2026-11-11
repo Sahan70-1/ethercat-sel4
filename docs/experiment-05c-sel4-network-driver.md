@@ -1,7 +1,9 @@
 # Experiment 5C: seL4 network driver and SOEM integration
 
-Status on 2026-11-11: scope/literature review and initial student WSL inventory
-recorded. Host tools need installation; the SDK location is not yet known.
+Status on 2026-11-11: scope/literature review and student WSL host-tool versions
+recorded. QEMU 8.2.2, Clang/LLD 18.1.3, DTC 1.7.0 and Python 3.12.3 are
+available. SDK download/installation on WSL is next; its official archive,
+expected guest files and host tool help were checked separately in the cloud.
 No 5C driver image has been built or booted, and no seL4 network TX/RX or SOEM
 startup is claimed.
 Work is on `experiment-05c-sel4-network-driver`, based on the completed Linux
@@ -142,5 +144,63 @@ Send the version output and any SDK paths found. No output from this bounded
 search means no matching directory was found within its search scope; it does
 not prove the SDK is absent everywhere. The next step will inspect an existing
 SDK or download the selected release for Linux x86-64. The earlier candidate
-release is Microkit 2.4.0. No SDK download, source checkout or driver build is
-part of these commands, and their successful execution is not yet recorded.
+release is Microkit 2.4.0. The student subsequently reported the tool versions
+and no matching SDK directory in the search scope; see the
+[recorded output](../results/05c-sel4-network-driver/README.md#student-tool-versions-after-the-installation-step).
+
+## Next student step: download and check Microkit SDK 2.4.0
+
+Use the Linux x86-64 release for the WSL host. It includes the AArch64 board
+files for the intended QEMU guest. Ensure the download tool is present:
+
+```sh
+sudo apt install -y curl
+```
+
+Download and extract under `~/tools`, outside the project checkout. The
+subshell stops on an error without closing WSL and leaves the parent shell's
+current directory unchanged. If an SDK directory already exists, it stops
+before downloading or overwriting it:
+
+```sh
+(
+  set -e
+  mkdir -p "$HOME/tools"
+  cd "$HOME/tools"
+
+  if [ -e microkit-sdk-2.4.0 ]; then
+    echo "SDK directory already exists; stop here and inspect it."
+    exit 1
+  fi
+
+  curl -fL --retry 3 \
+    -o microkit-sdk-2.4.0-linux-x86-64.tar.gz \
+    https://github.com/seL4/microkit/releases/download/2.4.0/microkit-sdk-2.4.0-linux-x86-64.tar.gz
+
+  printf '%s  %s\n' \
+    10bc305713965a01e52b6c7567cea4952b0cc4dde4befa2e6e72b8dce2715f6b \
+    microkit-sdk-2.4.0-linux-x86-64.tar.gz | sha256sum -c -
+
+  tar -xzf microkit-sdk-2.4.0-linux-x86-64.tar.gz
+)
+```
+
+The checksum compares with the official archive downloaded and inspected in
+the cloud, as documented in the [SDK check](../results/05c-sel4-network-driver/README.md#cloud-check-of-the-official-microkit-sdk).
+Expected: the archive check reports `OK`. If it fails, retain the error and
+do not continue to SDK verification.
+
+Set the SDK path in the existing WSL shell and check it:
+
+```sh
+export MICROKIT_SDK="$HOME/tools/microkit-sdk-2.4.0"
+cat "$MICROKIT_SDK/VERSION"
+"$MICROKIT_SDK/bin/microkit" --help
+```
+
+Expected: version `2.4.0`, followed by help listing `qemu_virt_aarch64`.
+Send the checksum result, version and help output. The export applies to this
+shell session; no shell startup files are modified. SDK verification on WSL
+is still pending. After that, establish a basic seL4/Microkit boot on this
+machine before network-driver tests. No driver implementation choice is
+implied by installing the SDK.

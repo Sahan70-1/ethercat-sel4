@@ -27,6 +27,7 @@ hardware or QEMU run. Keep future runs separate and record their environment.
   tested Linux milestone; seL4/sDDF integration remains unrun.
 
 - EtherCAT experiment 5C: [student WSL environment inventory](05c-sel4-network-driver/README.md).
-  The x86-64 host has Make; QEMU AArch64, Clang, LLD and DTC were not found on
-  PATH. The SDK location is unknown. Installation and all 5C driver/runtime
-  checks remain pending; this is preparation evidence only.
+  After the initial missing-tool inventory, the student reported QEMU 8.2.2,
+  Clang/LLD 18.1.3, DTC 1.7.0 and Python 3.12.3. The official Microkit 2.4.0
+  archive/files/host-tool help were checked separately in the cloud. Student
+  SDK installation and all 5C driver/runtime checks remain pending.

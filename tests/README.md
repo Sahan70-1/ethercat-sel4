@@ -11,7 +11,7 @@ independent. Historical folder numbers are retained to preserve existing links.
 | 4 — SOEM Linux transmission | [03-soem-network](03-soem-network/README.md) | [Saved output and capture](../results/03-soem-network/README.md) |
 | 5A — SOEM interface audit | [05a-soem-interface](05a-soem-interface/README.md) | [Cloud checks](../results/05a-soem-interface/README.md); student WSL source inspection, build, adapter enumeration and host demos recorded; 5A scope complete |
 | 5B — Linux transport, first milestone | [05b-linux-transport](05b-linux-transport/README.md) | [Cloud synthetic tests](../results/05b-linux-transport/README.md); WSL 3/3 local suites, adapted veth TX and synthetic veth RX passed; Linux scope complete |
-| 5C — seL4 network driver and SOEM | [Scope and preparation steps](../docs/experiment-05c-sel4-network-driver.md) | [Initial WSL inventory](../results/05c-sel4-network-driver/README.md) recorded; host-tool installation pending; driver build, boot and network tests unrun |
+| 5C — seL4 network driver and SOEM | [Scope and preparation steps](../docs/experiment-05c-sel4-network-driver.md) | [WSL tool versions and cloud SDK check](../results/05c-sel4-network-driver/README.md) recorded; student SDK installation pending; driver build, boot and network tests unrun |
 
 Experiments 1 and 2 share one folder. Consequently Experiment 4 is in a folder
 starting with `03`. It is present; it does not need duplicate source files.
