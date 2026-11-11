@@ -1,0 +1,2 @@
+5c14385f184a6890a06ca877c35e27ebf0a8f54ea11db02aeff922061f71977c  tests/sel4/06-networking/valid-datagram/build/loader.img
+9dc9023633d89c3c44160445d1b5d0f581d0023f2fa8712f26a8e78928bbd042  results/sel4/06-networking/valid-datagram/valid-datagram.pcap

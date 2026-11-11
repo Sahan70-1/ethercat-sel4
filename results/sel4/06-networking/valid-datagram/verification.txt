@@ -1,0 +1,36 @@
+EXPERIMENT 06C — ETHERCAT DATAGRAM GENERATION
+Date: 2026-11-11
+Status: SUCCESS — FORMAT AND TRANSMISSION
+
+Platform:
+seL4 Microkernel
+Microkit SDK 2.4.0
+sDDF VirtIO-MMIO networking
+QEMU qemu_virt_aarch64
+
+Test:
+EtherCAT Broadcast Read (BRD)
+EtherType: 0x88A4
+Command: 0x07
+Index: 0x01
+ADP: 0x0000
+ADO: 0x0130 (AL Status)
+Data length: 2 bytes
+Initial working counter: 0x0000
+Ethernet frame length: 60 bytes
+
+Results:
+- Custom EtherCAT request constructed
+- Frame transmitted through sDDF
+- QEMU packet capture successful
+- EtherCAT header and datagram fields verified
+
+Conclusion:
+EtherCAT protocol-format frame generation
+and virtual Ethernet transmission demonstrated.
+
+Limitations:
+No EtherCAT slave was connected.
+No valid slave response was received.
+No working-counter increment was demonstrated.
+No deterministic timing guarantees were measured.
