@@ -72,7 +72,9 @@ reply with payload 0x0002/WKC=2 and probe exit 0. See
 Cloud AF_PACKET creation returns EPERM, so raw veth exchange is student-tested
 only. The automated runner itself uses local socketpairs and does not test veth.
 
-Next is standalone sDDF VirtIO-net TX/RX in QEMU before connecting SOEM.
+Next is network-driver TX/RX in seL4/QEMU before connecting SOEM; see the
+[5C scope and driver-choice discussion](../../docs/experiment-05c-sel4-network-driver.md).
+Existing sDDF VirtIO-net is a candidate/reference, not a settled reuse decision.
 OSAL/lifecycle, buffer ownership and Microkit wait scheduling remain to be
 implemented and tested. Real slaves and physical timing remain later gates.
 

@@ -115,11 +115,12 @@ exchange through AF_PACKET/veth, in addition to local tests. Its visible
 output was [transcribed separately](../results/05b-linux-transport/wsl-veth-rx.txt);
 it is not a full build log or an independently executed cloud test.
 
-5C has not started. Begin by pinning compatible Microkit/sDDF versions and
-building and booting an existing sDDF VirtIO-net example in QEMU. Establish
+The subsequent [5C scope review](experiment-05c-sel4-network-driver.md) frames
+the next milestone as a seL4 network driver plus SOEM integration. Establish
 raw Ethernet TX/RX before connecting SOEM; demonstrate buffer reclamation and
-that waiting lets the driver run. Then implement the sDDF transport endpoint
-and remaining OSAL/lifecycle services, with timer and scheduling tests.
-Use the existing VirtIO network driver for this step. A new hardware NIC
-driver is not required to begin. Real slaves, cyclic data and physical timing
-remain later validation gates.
+that waiting lets the driver run. Then implement the necessary SOEM platform
+services with timer and scheduling tests. Existing sDDF VirtIO-net is a
+candidate/reference; the earlier recommendation to reuse it was not a settled
+supervisor requirement. Reuse, modification or a new driver implementation
+must be an explicit decision. No 5C driver has been built or tested yet.
+Real slaves, cyclic data and physical timing remain later validation gates.

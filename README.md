@@ -38,6 +38,8 @@ The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 
 - [Experiment 5A: SOEM network interface audit](docs/experiment-05a-soem-network-audit.md).
 - [Reproduce the 5A host checks](tests/05a-soem-interface/README.md).
 - [5B Linux transport implementation and tests](tests/05b-linux-transport/README.md).
+- [5C seL4 network driver and SOEM plan](docs/experiment-05c-sel4-network-driver.md).
+- [Review of the supplied EtherCAT robot-control paper](docs/paper-review-sygulla-ethercat-control.md).
 
 There are two experiment tracks. The EtherCAT track has local frame/WKC demos,
 Linux veth transmission and recorded SOEM TX with no slaves found. The seL4
@@ -52,8 +54,11 @@ milestone is complete for its tested Linux scope: three local suites pass on
 cloud and student WSL, adapted veth TX was captured, and the student verified
 synthetic-response RX over veth with payload 0x0002, WKC=2 and probe exit 0.
 See the [student evidence](results/05b-linux-transport/wsl-results.md).
-5C sDDF integration is future work, starting with standalone VirtIO-net TX/RX
-in QEMU before connecting SOEM.
+5C scope/literature review has started. Its proposed order is network-driver
+TX/RX in seL4/QEMU, then SOEM platform support and integration. Existing sDDF
+VirtIO-net is a candidate/reference; reuse versus a new driver implementation
+remains an explicit design decision. No 5C driver build or runtime test is
+claimed yet.
 
 ## Project Team
 
