@@ -1,6 +1,9 @@
 # Experiment 5C: seL4 network driver preparation
 
-Current runnable check: rebuild and boot the original seL4 UART demo using
+The original UART boot check now passes on student WSL. The next runnable
+step is the [read-only VirtIO network-device probe](device-probe.md).
+
+The boot check below rebuilds and boots the original seL4 UART demo using
 Clang/LLD. This verifies the host toolchain, SDK, image builder, QEMU boot and
 PD startup before developing the network path. No network driver or SOEM is
 included in this image.
@@ -60,8 +63,11 @@ timeout status 124, an empty console log and runner exit 1. The subsequent
 [diagnostic](../../results/05c-sel4-network-driver/README.md#student-wsl-diagnostic-boot-passed)
 booted that same image and showed all three markers. The runner now uses those
 working file-console settings and passed a fresh cloud build/boot with QEMU
-8.2.2. Repeating this updated runner on WSL is the next reproducibility check;
-its WSL result has not yet been supplied.
+8.2.2. The student then repeated the updated runner on WSL: all markers
+appeared and the runner exited 0. See the
+[recorded fresh WSL run](../../results/05c-sel4-network-driver/README.md#updated-runner-student-wsl-build-and-boot-passed).
+Continue with the [device probe](device-probe.md); another UART boot rerun is
+not required for that next step.
 
 Send the printed output directory, complete terminal output and runner exit
 status. Stop at an error and retain its output. The successful WSL diagnostic
@@ -93,7 +99,7 @@ it is retained in the logs. Its presence alone does not fail this startup check.
 
 Historical reproduction command: the student has now run this and supplied a
 [successful boot transcript](../../results/05c-sel4-network-driver/wsl-boot-diagnostic.txt).
-Use the updated runner above for the next fresh build. The original temporary
+The updated runner above has since passed on WSL. The original temporary
 image path below is specific to that diagnostic session.
 
 This reuses `/tmp/ethercat-05c-boot.ujkjn9/loader.img` without rebuilding or

@@ -1,0 +1,2 @@
+QEMU timeout command exit status: 124
+FAIL: device probe or guest reported an error; inspect the logs above

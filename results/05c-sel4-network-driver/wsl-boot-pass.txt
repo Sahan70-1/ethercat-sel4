@@ -1,0 +1,129 @@
+sahan@SAHAN-PC:~/FYP/ethercat-sel4$ (
+  set -e
+  cd ~/FYP/ethercat-sel4
+
+  git switch experiment-05c-sel4-network-driver
+  git pull --ff-only origin experiment-05c-sel4-network-driver
+
+  export MICROKIT_SDK="$HOME/tools/microkit-sdk-2.4.0"
+
+  set +e
+  bash tests/05c-sel4-network-driver/run_boot.sh "$MICROKIT_SDK"
+  echo "Runner exit status: $?"
+)
+Already on 'experiment-05c-sel4-network-driver'
+Your branch is up to date with 'origin/experiment-05c-sel4-network-driver'.
+remote: Enumerating objects: 53, done.
+remote: Counting objects: 100% (53/53), done.
+remote: Compressing objects: 100% (20/20), done.
+remote: Total 42 (delta 25), reused 39 (delta 22), pack-reused 0 (from 0)
+Unpacking objects: 100% (42/42), 15.72 KiB | 365.00 KiB/s, done.
+From github.com:Sahan70-1/ethercat-sel4
+ * branch            experiment-05c-sel4-network-driver -> FETCH_HEAD
+   af4aa7c..bc2e362  experiment-05c-sel4-network-driver -> origin/experiment-05c-sel4-network-driver
+Updating af4aa7c..bc2e362
+Fast-forward
+ README.md                                                         |   6 +-
+ docs/experiment-05c-sel4-network-driver.md                        |  20 ++--
+ results/05c-sel4-network-driver/README.md                         | 144 +++++++++++++++++++++++++++--
+ results/05c-sel4-network-driver/cloud-boot-file-console/build.txt |   3 +
+ .../cloud-boot-file-console/environment.txt                       |  12 +++
+ .../05c-sel4-network-driver/cloud-boot-file-console/qemu-boot.log |  45 +++++++++
+ .../cloud-boot-file-console/qemu-debug.log                        |  32 +++++++
+ .../cloud-boot-file-console/qemu-stderr.log                       |   1 +
+ .../05c-sel4-network-driver/cloud-boot-file-console/result.txt    |   3 +
+ results/05c-sel4-network-driver/cloud-diagnostics/environment.txt |  17 ++++
+ results/05c-sel4-network-driver/cloud-diagnostics/qemu-debug.log  |  32 +++++++
+ results/05c-sel4-network-driver/cloud-diagnostics/qemu-stderr.log |   1 +
+ .../cloud-diagnostics/qemu10-pty-job-control.log                  |  46 +++++++++
+ .../cloud-diagnostics/qemu10-pty-original.log                     |  46 +++++++++
+ .../cloud-diagnostics/qemu8-pty-original.log                      |  46 +++++++++
+ results/05c-sel4-network-driver/cloud-diagnostics/uart.log        |  45 +++++++++
+ results/05c-sel4-network-driver/wsl-boot-diagnostic.txt           | 111 ++++++++++++++++++++++
+ results/05c-sel4-network-driver/wsl-boot-failure.txt              |  25 +++++
+ results/README.md                                                 |   7 +-
+ tests/05c-sel4-network-driver/README.md                           |  74 ++++++++++++++-
+ tests/05c-sel4-network-driver/run_boot.sh                         |  21 +++--
+ tests/README.md                                                   |   2 +-
+ 22 files changed, 709 insertions(+), 30 deletions(-)
+ create mode 100644 results/05c-sel4-network-driver/cloud-boot-file-console/build.txt
+ create mode 100644 results/05c-sel4-network-driver/cloud-boot-file-console/environment.txt
+ create mode 100644 results/05c-sel4-network-driver/cloud-boot-file-console/qemu-boot.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-boot-file-console/qemu-debug.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-boot-file-console/qemu-stderr.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-boot-file-console/result.txt
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/environment.txt
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/qemu-debug.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/qemu-stderr.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/qemu10-pty-job-control.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/qemu10-pty-original.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/qemu8-pty-original.log
+ create mode 100644 results/05c-sel4-network-driver/cloud-diagnostics/uart.log
+ create mode 100644 results/05c-sel4-network-driver/wsl-boot-diagnostic.txt
+ create mode 100644 results/05c-sel4-network-driver/wsl-boot-failure.txt
+Output: /tmp/ethercat-05c-boot.nHG7pI
+SDK: /home/sahan/tools/microkit-sdk-2.4.0
+SDK version: 2.4.0
+Project HEAD: bc2e3623d07b794370d10c0d4ec4338ab013a2fc
+Linux x86_64
+Ubuntu clang version 18.1.3 (1ubuntu1)
+Ubuntu LLD 18.1.3 (compatible with GNU linkers)
+QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+991ea01d6dd19f17b4b5ff7c21b31fde4ac39a05c8d83c24700810567864500c  tests/05c-sel4-network-driver/run_boot.sh
+c4563eedc1312a29411bda6f8d67971bb0cdc992dd2b504e34e9ddadbb0624fb  /home/sahan/FYP/ethercat-sel4/tests/sel4/00-microkit-hello-world/serial_server.c
+e77f40aad7893645c6193e318d938ce8ff1ad4cf0cd38532c5fabeebf906b174  /home/sahan/FYP/ethercat-sel4/tests/sel4/00-microkit-hello-world/system.system
+MICROKIT|CAPDL SPEC: number of root objects = 36, spec footprint = 5.28 KiB
+MICROKIT|INITIAL TASK: memory size = 368 KiB
+MICROKIT|LOADER: image file size = 2.62 MiB
+408f1aed9f5100d9a6c217a29f2b53224408b9e90e48300362572f1bee36c8ea  /tmp/ethercat-05c-boot.nHG7pI/loader.img
+Booting in QEMU TCG for up to 30 seconds; it will stop automatically.
+LDR|INFO: Setting all interrupts to Group 1
+LDR|INFO: GICv2 ITLinesNumber: 0x00000008
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO: disabling MMU (if it was enabled)
+LDR|INFO: PSCI version is 1.1
+LDR|INFO: loader for seL4 starting
+LDR|INFO: flags:
+             seL4 configured as hypervisor
+LDR|INFO: kernel:      entry:   0x000000ffc0000000
+LDR|INFO: root server: physmem: 0x0000000060258000 -- 0x00000000602b4000
+LDR|INFO:              virtmem: 0x0000000000200000 -- 0x000000000025c000
+LDR|INFO:              entry  : 0x0000000000222778
+LDR|INFO: region: 0x00000000   addr: 0x0000000060000000   size: 0x0000000000258000   offset: 0x0000000000000000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000001   addr: 0x0000000060258000   size: 0x000000000000aa08   offset: 0x0000000000258000   type: 0x0000000000000001
+LDR|INFO: region: 0x00000002   addr: 0x0000000060272a08   size: 0x0000000000014818   offset: 0x0000000000262a08   type: 0x0000000000000001
+LDR|INFO: region: 0x00000003   addr: 0x0000000060297220   size: 0x0000000000010080   offset: 0x0000000000277220   type: 0x0000000000000001
+LDR|INFO: region: 0x00000004   addr: 0x00000000602a8000   size: 0x0000000000001520   offset: 0x00000000002872a0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000005   addr: 0x00000000602aa000   size: 0x0000000000008000   offset: 0x00000000002887c0   type: 0x0000000000000001
+LDR|INFO: region: 0x00000006   addr: 0x00000000602b3000   size: 0x00000000000001f8   offset: 0x00000000002907c0   type: 0x0000000000000001
+LDR|INFO: copying region 0x00000000
+LDR|INFO: copying region 0x00000001
+LDR|INFO: copying region 0x00000002
+LDR|INFO: copying region 0x00000003
+LDR|INFO: copying region 0x00000004
+LDR|INFO: copying region 0x00000005
+LDR|INFO: copying region 0x00000006
+LDR|INFO|CPU0: active CPUs to start: 0x00000001
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: CurrentEL=EL2
+LDR|INFO|CPU0: Resetting CNTVOFF
+LDR|INFO|CPU0: enabling MMU
+LDR|INFO|CPU0: jumping to kernel
+Bootstrapping kernel
+Warning: Could not infer GIC interrupt target ID, assuming 0.
+Available phys memory regions: 1
+  [60000000..c0000000)
+Reserved virt address space regions: 2
+  [8060000000..8060258000)
+  [8060258000..80602b4000)
+Booting all finished, dropped to user space
+INFO  [sel4_capdl_initializer::initialize] Starting CapDL initializer
+INFO  [sel4_capdl_initializer::initialize] Starting threads
+MON|INFO: Microkit Monitor started!
+SERIAL SERVER: starting
+qemu-system-aarch64: terminating on signal 15 from pid 13220 (timeout)
+QEMU timeout command exit status: 124
+PASS: seL4 boot, Microkit monitor and original UART PD startup observed
+NOT TESTED: network driver, Ethernet TX/RX, SOEM, slaves or hardware timing
+Runner exit status: 0

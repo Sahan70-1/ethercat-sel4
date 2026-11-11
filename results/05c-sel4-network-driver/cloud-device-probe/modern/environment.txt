@@ -1,0 +1,13 @@
+Output: /workspace/setup-ethercat/05c-probe-final-modern
+SDK: /workspace/setup-ethercat/microkit-2.4.0-check/sdk/microkit-sdk-2.4.0
+SDK version: 2.4.0
+Project HEAD: bc2e3623d07b794370d10c0d4ec4338ab013a2fc
+PROBE_MODE: modern
+Linux x86_64
+Debian clang version 19.1.7 (3+b1)
+Debian LLD 19.1.7 (compatible with GNU linkers)
+QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+0f2e58ea0a2c6922b96aa25b6d1906813becf3e6c3ac5bb2f276f011d856e457  tests/05c-sel4-network-driver/run_device_probe.sh
+d00108f3edd09991c5db2cf5d6240963adfa9cc89ee855ef757c3c80a34a3a22  /workspace/ethercat-sel4/tests/05c-sel4-network-driver/device_probe.c
+c5d1a1275515553500674ca1803c7c611a72844e6d1953db6833930e7865e660  /workspace/ethercat-sel4/tests/05c-sel4-network-driver/device_probe.system
+27b21590f35f1671fbde21768f723f0475905e345b9fe5d02f18d5ad986da3f7  /workspace/setup-ethercat/05c-probe-final-modern/loader.img

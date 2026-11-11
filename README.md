@@ -8,7 +8,7 @@ University of Peradeniya | Department of Computer Engineering
 
 This research investigates the integration of an EtherCAT master with the seL4 microkernel, focusing on real-time communication, performance isolation, latency, and jitter.
 
-The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 Device Driver Framework (sDDF), and isolated protection domains.
+The target architecture runs the Simple Open EtherCAT Master (SOEM) with a user-level network driver and isolated protection domains on seL4. sDDF is a candidate framework; the full driver implementation approach remains under review.
 
 ## Research Objectives
 
@@ -24,7 +24,7 @@ The proposed architecture uses the Simple Open EtherCAT Master (SOEM), the seL4 
 - seL4 Microkernel
 - EtherCAT
 - SOEM
-- seL4 Device Driver Framework (sDDF)
+- seL4 Device Driver Framework (sDDF), candidate framework
 - Microkit
 - C, Python
 - QEMU
@@ -58,7 +58,9 @@ See the [student evidence](results/05b-linux-transport/wsl-results.md).
 build/UART boot check passed in the cloud. After the first WSL boot check
 failed with an empty log, a [file-console diagnostic](results/05c-sel4-network-driver/README.md#student-wsl-diagnostic-boot-passed)
 booted the same image and confirmed kernel, monitor and UART PD startup.
-The updated runner passed in the cloud with QEMU 8.2.2; a fresh WSL run is next.
+The updated UART runner now passes in cloud and student WSL. The next student
+step is the [read-only VirtIO device probe](tests/05c-sel4-network-driver/device-probe.md),
+whose cloud device-identification and negative-control checks are recorded.
 The proposed order is network-driver TX/RX in seL4/QEMU, then SOEM platform
 support and integration. Existing sDDF
 VirtIO-net is a candidate/reference; reuse versus a new driver implementation
@@ -75,7 +77,7 @@ claimed yet.
 
 Early-stage research and prototyping.
 
-Existing experiments cover seL4 protection-domain communication and virtual Ethernet transmission. The next integration work starts at SOEM’s OS-dependent network boundary.
+Existing experiments cover seL4 protection-domain communication, Linux virtual Ethernet transmission/reception and a fresh WSL seL4 boot. Current 5C work establishes network-device access before initialization, raw-frame TX/RX and SOEM integration.
 
 Recorded QEMU measurements and their limitations are available under `results/sel4/`; see the repository review for the validation performed here.
 

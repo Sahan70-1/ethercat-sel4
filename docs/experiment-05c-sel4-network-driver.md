@@ -6,10 +6,10 @@ available. Student SDK checksum/version/help checks passed. A Clang rebuild
 and boot of the original UART demo passed in the cloud. Student WSL image
 generation passed; after its first silent boot check failed, a file-console
 diagnostic booted the same image and showed kernel, monitor and UART PD startup.
-The runner now uses those settings and has passed in the cloud with QEMU 8.2.2;
-a fresh WSL run of the updated runner is next.
-No network driver has been built or tested and no seL4 network TX/RX
-or SOEM startup is claimed.
+The updated runner then passed a fresh WSL build/boot with exit 0. A new
+read-only VirtIO device probe passed in the cloud; absent-card and legacy
+interface controls correctly prevented a pass. The student's probe run is next.
+No functioning network driver, seL4 network TX/RX or SOEM startup is claimed.
 Work is on `experiment-05c-sel4-network-driver`, based on the completed Linux
 milestone `85ae914`. Nothing has been merged into main.
 
@@ -44,8 +44,10 @@ itself mean adding a network stack inside the kernel.
 
 ## Driver choice: what is known and what remains open
 
-QEMU VirtIO-net is the candidate initial device because the teammate's
-environment uses `qemu_virt_aarch64` and no physical NIC has been confirmed.
+QEMU VirtIO-net is the initial device for the new identification probe because
+the teammate's environment uses `qemu_virt_aarch64` and no physical NIC has been
+confirmed. The probe uses the modern MMIO interface and explicitly attaches the
+card to bus 0. It is new project test code and does not link an sDDF driver.
 
 The previously inspected sDDF revision
 `4b47a3534b136e240fbad970aec277adc4d65fe7` contains an existing
@@ -55,7 +57,8 @@ dependency combination for this project. Its comments describe a minimal
 simulator-oriented implementation, not a performance-qualified physical driver.
 
 The implementation choice remains open: reuse with attribution, modify/port,
-or implement a driver against the VirtIO specification. A new implementation
+or implement a full driver against the VirtIO specification. Identifying the
+card does not decide how the later TX/RX driver is implemented. A new implementation
 would include device initialization, feature negotiation, queues, TX/RX buffers,
 interrupt handling and recovery. Record this choice and the supervisor's
 requirements before describing reused driver code as our own contribution.
@@ -215,11 +218,24 @@ rebuilds the teammate's original UART demo without modifying or duplicating
 its C source/system description. It uses the installed Clang/LLD rather than
 requiring the original experiment's separate AArch64 GCC toolchain.
 
-The cloud build/boot and the student's subsequent file-console diagnostic
-passed; the [first WSL failure and later success](../results/05c-sel4-network-driver/README.md#student-wsl-diagnostic-boot-passed)
-are both preserved. Repeat the updated runner on WSL to capture a fresh build
-and automated marker checks using the working settings. This precheck is a
-local build/boot foundation, not a network driver or completion of 5C.
-The runner deliberately attaches no NIC. The next development milestone is
-the driver design and raw-frame TX/RX, with the implementation choice recorded
-before integrating SOEM.
+The cloud build/boot, student's file-console diagnostic and fresh updated
+WSL runner all passed. The [first failure](../results/05c-sel4-network-driver/wsl-boot-failure.txt)
+and [successful fresh run](../results/05c-sel4-network-driver/wsl-boot-pass.txt)
+are preserved. This precheck establishes the local build/boot foundation;
+the image deliberately attaches no NIC. Another UART boot repetition is not
+required before the next device-access step.
+
+## Next student step: identify the VirtIO network device
+
+Run the [new device probe](../tests/05c-sel4-network-driver/device-probe.md).
+It boots a small PD with read-only device-register access and checks the magic
+value, modern interface version and network-device ID. QEMU supplies the virtual
+hardware; the guest software still needs to operate it. The probe's source,
+system mapping and runner are kept together under `tests/05c-sel4-network-driver`.
+
+Cloud [positive and negative controls](../results/05c-sel4-network-driver/device-probe.md)
+are recorded. The next student result must come from their own WSL execution.
+After device access, continue with reset/feature negotiation, queue setup,
+buffer ownership and interrupts, then raw EtherCAT frame TX/RX. Record the full
+driver implementation choice before integrating SOEM. Device identification
+alone does not complete 5C.1's design work or 5C.2's network-driver milestone.

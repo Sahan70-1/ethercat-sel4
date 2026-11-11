@@ -34,5 +34,7 @@ hardware or QEMU run. Keep future runs separate and record their environment.
   original UART demo passed in the cloud. The first student WSL boot check
   failed with an empty log; the subsequent file-console diagnostic booted the
   same image and showed all three startup markers. Both results are retained.
-  The updated runner passed in cloud with QEMU 8.2.2; its fresh WSL run is
-  pending. Network-driver TX/RX and SOEM remain unrun.
+  The updated runner then passed a fresh WSL build/boot with exit 0. The next
+  [device probe](05c-sel4-network-driver/device-probe.md) passed identification
+  and two negative controls in cloud; its WSL result is pending.
+  Network-driver TX/RX and SOEM remain unrun.

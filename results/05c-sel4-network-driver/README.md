@@ -1,12 +1,14 @@
-# Experiment 5C: environment evidence
+# Experiment 5C: boot and device-access evidence
 
 Status: student WSL host tools and SDK checks passed. The original UART demo
 boots in the cloud and in the student's later WSL file-console diagnostic.
 The first WSL boot check failed with an empty log; that failure is retained.
-The updated runner passed a fresh cloud build/boot with QEMU 8.2.2. Its fresh
-WSL run is pending; the cause of the initial empty log remains unconfirmed.
-No network driver, raw-frame exchange or SOEM execution on seL4 has been tested
-for 5C. The boot check does not complete the network-driver milestone.
+The updated runner passed fresh cloud and student WSL builds/boots with QEMU
+8.2.2. The cause of the initial empty log remains unconfirmed. A new
+[read-only network-device probe](device-probe.md) is the next student step;
+its cloud checks are recorded separately. Device initialization, network
+TX/RX and SOEM execution on seL4 remain unrun. Boot and device identification
+do not complete the network-driver milestone.
 
 ## Initial student WSL inventory
 
@@ -291,5 +293,32 @@ Evidence: [environment and hashes](cloud-boot-file-console/environment.txt),
 [result](cloud-boot-file-console/result.txt). CRLF line endings are normalized;
 all log text is retained. The recorded HEAD is `d8e0d9d` because the runner
 change was uncommitted during this test; its SHA-256 identifies the tested
-script. The student's next step is a fresh run of this updated runner using
-the [WSL instructions](../../tests/05c-sel4-network-driver/README.md#run-on-student-wsl).
+script. The student subsequently repeated this updated runner using the
+[WSL instructions](../../tests/05c-sel4-network-driver/README.md#run-on-student-wsl),
+with results below.
+
+## Updated runner: student WSL build and boot passed
+
+Provenance: the student supplied [this complete terminal transcript](wsl-boot-pass.txt)
+after updating the 5C branch to `bc2e3623d07b794370d10c0d4ec4338ab013a2fc`.
+The commands ran on their WSL machine, not remotely in the cloud. Only CRLF
+line endings were normalized when storing the supplied text.
+
+Output directory: `/tmp/ethercat-05c-boot.nHG7pI`. SDK 2.4.0, Ubuntu Clang/LLD
+18.1.3 and QEMU 8.2.2. The supplied runner and original source/system hashes
+match the tested branch. The fresh image hash again matches
+`408f1aed9f5100d9a6c217a29f2b53224408b9e90e48300362572f1bee36c8ea`.
+
+| Check | Supplied outcome |
+|---|---|
+| Compile, link and Microkit image generation | PASS; 36 root objects, 2.62 MiB loader image |
+| seL4 user-space entry | Startup marker present |
+| Microkit monitor | Startup marker present |
+| Original UART PD | `SERIAL SERVER: starting` present |
+| Bounded QEMU run | Timeout status 124, as expected |
+| Automated runner | PASS; final runner exit status **0** |
+
+This completes the student's fresh UART build/boot precheck. The first failed
+attempt and successful diagnostic remain preserved. No network device was
+attached in this boot test. The next step is the
+[VirtIO device probe](../../tests/05c-sel4-network-driver/device-probe.md).

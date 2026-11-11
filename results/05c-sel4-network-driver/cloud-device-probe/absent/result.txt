@@ -1,0 +1,2 @@
+QEMU timeout command exit status: 124
+FAIL: missing marker: PASS: modern VirtIO-net MMIO device identified

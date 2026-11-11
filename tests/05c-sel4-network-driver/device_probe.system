@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+    <!-- QEMU virt-8.2, explicit virtio-mmio-bus.0: base 0x0a000000.
+         The transport occupies 0x200 bytes; seL4 maps at 4 KiB granularity.
+         This grants read access to one page containing eight MMIO slots.
+         The probe reads only the first four registers of slot 0. -->
+    <memory_region name="virtio_mmio" size="0x1000" phys_addr="0x0a000000" />
+    <protection_domain name="device_probe" priority="200">
+        <program_image path="device_probe.elf" />
+        <map mr="virtio_mmio" vaddr="0x04000000" perms="r" cached="false"
+             setvar_vaddr="virtio_base_vaddr" />
+    </protection_domain>
+</system>

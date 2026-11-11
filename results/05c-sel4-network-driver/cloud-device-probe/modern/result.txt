@@ -1,0 +1,3 @@
+QEMU timeout command exit status: 124
+PASS: seL4 PD identified the modern VirtIO network device through read-only MMIO
+NOT TESTED: device initialization, queues, IRQs, Ethernet TX/RX or SOEM
