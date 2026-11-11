@@ -1,7 +1,9 @@
 # Experiment 5C: seL4 network driver and SOEM integration
 
-Status on 2026-11-11: scope and literature review started. No 5C driver image
-has been built or booted, and no seL4 network TX/RX or SOEM startup is claimed.
+Status on 2026-11-11: scope/literature review and initial student WSL inventory
+recorded. Host tools need installation; the SDK location is not yet known.
+No 5C driver image has been built or booted, and no seL4 network TX/RX or SOEM
+startup is claimed.
 Work is on `experiment-05c-sel4-network-driver`, based on the completed Linux
 milestone `85ae914`. Nothing has been merged into main.
 
@@ -90,5 +92,55 @@ inventory, not a driver test. A missing environment variable alone does not
 prove the SDK is absent. The teammate's SDK/tool paths are on another machine
 and must not be assumed to exist on the student's WSL computer.
 
-No runtime results directory is created until there is an actual run to record.
-Keep the existing experiments and 5B evidence unchanged.
+The student supplied this inventory; see the
+[environment evidence](../results/05c-sel4-network-driver/README.md).
+Keep runtime logs separate from this initial host inventory and preserve the
+existing experiments and 5B evidence.
+
+## Next student step: install host tools and locate the SDK
+
+The reported WSL host is x86-64, Make is available, and QEMU AArch64, Clang,
+LLD and DTC are not on PATH. The SDK variable is unset. We will use host
+executables for x86-64 while compiling/emulating an AArch64 guest.
+
+The inspected sDDF README requires Make, Clang/LLVM, DTC and Python; its
+VirtIO driver makefile uses the selected compiler/linker. These tools also
+support development of our own driver. Installing them does not decide whether
+the project reuses or writes the NIC driver. Ubuntu's `qemu-system-arm` package
+provides `qemu-system-aarch64`.
+
+Run the following commands in WSL. If either installation command fails,
+stop and retain its error output:
+
+```sh
+sudo apt update
+sudo apt install -y qemu-system-arm clang llvm lld device-tree-compiler \
+  python3-venv python3-pip
+```
+
+Python virtual-environment support is for later isolated build dependencies;
+do not install Python packages into the system interpreter at this step.
+Then collect tool versions:
+
+```sh
+qemu-system-aarch64 --version | head -n 1
+clang --version | head -n 1
+ld.lld --version
+llvm-objcopy --version | head -n 1
+dtc --version
+python3 --version
+```
+
+Before downloading another SDK, look for an existing directory in the Linux
+home directory:
+
+```sh
+find ~ -maxdepth 5 -type d -name 'microkit-sdk*' 2>/dev/null
+```
+
+Send the version output and any SDK paths found. No output from this bounded
+search means no matching directory was found within its search scope; it does
+not prove the SDK is absent everywhere. The next step will inspect an existing
+SDK or download the selected release for Linux x86-64. The earlier candidate
+release is Microkit 2.4.0. No SDK download, source checkout or driver build is
+part of these commands, and their successful execution is not yet recorded.

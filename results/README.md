@@ -25,3 +25,8 @@ hardware or QEMU run. Keep future runs separate and record their environment.
   on cloud. Adapted veth TX and synthetic-response RX over veth passed on WSL;
   the probe checked payload 0x0002/WKC=2 and exited 0. This completes the
   tested Linux milestone; seL4/sDDF integration remains unrun.
+
+- EtherCAT experiment 5C: [student WSL environment inventory](05c-sel4-network-driver/README.md).
+  The x86-64 host has Make; QEMU AArch64, Clang, LLD and DTC were not found on
+  PATH. The SDK location is unknown. Installation and all 5C driver/runtime
+  checks remain pending; this is preparation evidence only.
