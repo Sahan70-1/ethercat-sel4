@@ -31,5 +31,6 @@ hardware or QEMU run. Keep future runs separate and record their environment.
   Clang/LLD 18.1.3, DTC 1.7.0 and Python 3.12.3. The official Microkit 2.4.0
   archive/files/host-tool help were checked separately in the cloud. Student
   SDK verification then passed. A separate Clang build and boot of the
-  original UART demo passed in the cloud; student WSL boot reproduction is
+  original UART demo passed in the cloud. The first student WSL image build
+  passed but its boot check failed; a separate file-console diagnostic is
   next. Network-driver TX/RX and SOEM remain unrun.

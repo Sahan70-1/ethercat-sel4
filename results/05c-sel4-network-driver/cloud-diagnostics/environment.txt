@@ -1,0 +1,17 @@
+Cloud comparison summary assembled from actual diagnostic runs.
+Host: Debian 13 x86-64; this is not the student WSL machine.
+QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+Image compiler/linker: Debian Clang/LLD 19.1.7; SDK 2.4.0.
+Image: /workspace/setup-ethercat/05c-boot-v2/loader.img
+Image SHA-256: 408f1aed9f5100d9a6c217a29f2b53224408b9e90e48300362572f1bee36c8ea
+No source/image rebuild was performed for these comparisons.
+Original stdio console: 5-second timeout, PTY; all startup markers observed.
+QEMU 10 tested with shell job control disabled/enabled; QEMU 8 with it enabled.
+File console: 30-second --foreground timeout, -display none -monitor none, stdin /dev/null.
+File console also enabled guest_errors,unimp,cpu_reset debug logging.
+Observed timeout command status: 124 for each comparison.
+All file-console startup markers observed; raw byte counts before normalization:
+uart.log 2499; qemu-stderr.log 71; qemu-debug.log 1726.
+Saved logs have CRLF line endings normalized; all text retained.
+The WSL image and raw log were not supplied; its failure was not reproduced.
+These comparisons do not establish the WSL root cause or a fix.

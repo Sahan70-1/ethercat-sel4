@@ -3,8 +3,9 @@
 Status on 2026-11-11: scope/literature review and student WSL host-tool versions
 recorded. QEMU 8.2.2, Clang/LLD 18.1.3, DTC 1.7.0 and Python 3.12.3 are
 available. Student SDK checksum/version/help checks passed. A Clang rebuild
-and boot of the original UART demo passed in the cloud; student WSL boot is
-next. No network driver has been built or tested and no seL4 network TX/RX
+and boot of the original UART demo passed in the cloud. Student WSL image
+generation passed but its first boot check failed; diagnostics are next.
+No network driver has been built or tested and no seL4 network TX/RX
 or SOEM startup is claimed.
 Work is on `experiment-05c-sel4-network-driver`, based on the completed Linux
 milestone `85ae914`. Nothing has been merged into main.
@@ -211,7 +212,9 @@ rebuilds the teammate's original UART demo without modifying or duplicating
 its C source/system description. It uses the installed Clang/LLD rather than
 requiring the original experiment's separate AArch64 GCC toolchain.
 
-The cloud build/boot passed with the recorded versions; student WSL reproduction
-is next. This precheck establishes the local build/boot foundation, not a
-network driver or completion of 5C. The runner deliberately attaches no NIC.
-Keep logs and complete this boot check before network-driver TX/RX work.
+The cloud build/boot passed with the recorded versions. The first student
+WSL build passed but the boot check failed without startup markers. Use the
+[separate diagnostic](../tests/05c-sel4-network-driver/README.md#diagnose-the-first-wsl-silent-boot)
+on that existing image and preserve the failure logs. This precheck is a
+local build/boot foundation, not a network driver or completion of 5C.
+The runner deliberately attaches no NIC. Verify startup before network TX/RX.

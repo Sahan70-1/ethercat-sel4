@@ -1,7 +1,8 @@
 # Experiment 5C: environment evidence
 
 Status: student WSL host tools and SDK checks passed. A new Clang build and
-boot of the original UART demo passed in the cloud; student WSL boot is next.
+boot of the original UART demo passed in the cloud; the first student WSL
+image build passed but boot check failed. A separate diagnostic is next.
 No network driver, raw-frame exchange or SOEM execution on seL4 has been tested
 for 5C. The boot check does not complete the network-driver milestone.
 
@@ -111,7 +112,7 @@ The student supplied further terminal output showing:
   `qemu_virt_aarch64`.
 
 This establishes the student's download checksum and SDK host-tool check.
-It does not demonstrate an image build or boot on the student's WSL machine.
+The later image build and failed WSL boot check are recorded below.
 The earlier attempt to execute the example output line ending in `: OK` was
 a shell input mistake, not a checksum failure; the subsequent real checksum
 command provides the verification evidence.
@@ -125,8 +126,9 @@ declarations. Changing the runner's language mode to GNU C11 resolved it;
 no source assertions were disabled and the UART/SDK sources were not edited.
 
 Final run: `/workspace/setup-ethercat/05c-boot-v2`. Host: Debian 13 x86-64,
-Clang/LLD 19.1.7, QEMU 10.0.13 and Microkit SDK 2.4.0. The student's WSL
-Clang/LLD 18.1.3 and QEMU 8.2.2 still need the same boot reproduction.
+Clang/LLD 19.1.7, QEMU 10.0.13 and Microkit SDK 2.4.0. The student's later WSL
+attempt with Clang/LLD 18.1.3 and QEMU 8.2.2 built the image but failed the boot
+check, as recorded below.
 
 The cloud had no sudo or compiler/QEMU on PATH. Official Debian packages were
 downloaded and extracted into the user-owned
@@ -165,3 +167,49 @@ the original teammate boot. Startup markers plus the bounded timeout establish
 this functional boot only. A timeout by itself is not success, and the 15-second
 test duration is not a timing or reliability measurement. No network device was
 attached (`-nic none`).
+
+## First student WSL build: boot check failed
+
+The student supplied [this terminal transcript](wsl-boot-failure.txt) from
+commit `af4aa7c909decb4862b3ade2e3d708601720267d`. The runner and original
+source/system SHA-256 values match the cloud run. Output directory:
+`/tmp/ethercat-05c-boot.ujkjn9`.
+
+Compilation/link and SDK image generation completed: 36 root objects and a
+2.62 MiB loader image. The timeout returned 124, but no QEMU text appeared
+before the runner reported its first missing boot marker and exited 1.
+The raw `qemu-boot.log`, image hash and runtime debug logs were not supplied.
+This is a failed WSL boot check. It does not demonstrate kernel, monitor or
+UART startup; timeout by itself does not establish execution of the guest.
+
+Preserve that directory. The next
+[diagnostic](../../tests/05c-sel4-network-driver/README.md#diagnose-the-first-wsl-silent-boot)
+reuses its existing image and captures UART, QEMU stderr and limited debug
+output separately, with no interactive console. It also uses a 30-second
+foreground timeout. The user result and root cause remain unknown. Do not
+advance to network-driver work until startup is verified.
+
+## Cloud comparison with Ubuntu QEMU 8.2.2
+
+To investigate the emulator-version difference, the official Ubuntu package
+`qemu-system-arm_8.2.2+ds-0ubuntu1.18_amd64.deb` was downloaded from
+`https://archive.ubuntu.com/ubuntu/pool/main/q/qemu/` and extracted into the
+workspace, not installed system-wide. The reported binary version matches
+the student's version string. Ubuntu libjpeg-turbo8 2.1.5-2ubuntu2 and
+libfuse3-3 3.14.0-5build1 were also extracted; other libraries came from the
+existing cloud environment/workspace. This is not a full Ubuntu/WSL replica.
+
+The existing cloud-built image was exercised in a PTY:
+
+| Comparison | Observed outcome |
+|---|---|
+| Original console, QEMU 10.0.13, 5-second timeout, job control disabled/enabled | All three startup markers present |
+| Original console, Ubuntu QEMU 8.2.2, 5-second timeout, job control enabled | All three startup markers present |
+| File console, Ubuntu QEMU 8.2.2, 30-second foreground timeout, stdin `/dev/null` | All three startup markers present; timeout status 124 |
+
+The file-console run retained 2499 UART bytes, 71 stderr bytes and 1726 debug
+bytes before line-ending normalization. Evidence is under
+[cloud-diagnostics](cloud-diagnostics/environment.txt). These observations
+show the cloud image boots under the tested QEMU versions/console modes;
+they do not explain or fix the WSL failure. The cloud image was built with
+Clang 19.1.7; the student's image, built with Clang 18.1.3, has not been examined.
