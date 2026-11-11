@@ -1,0 +1,46 @@
+EXPERIMENT 06B — RAW ETHERNET TRANSMISSION
+Date: 2026-11-11
+Status: SUCCESS
+
+Environment:
+- seL4 Microkernel
+- Microkit SDK 2.4.0
+- sDDF networking subsystem
+- QEMU ARM64 (qemu_virt_aarch64)
+- VirtIO-MMIO Ethernet driver
+
+Implementation:
+- Custom raw Ethernet Protection Domain
+- Direct sDDF network queue interface
+- No TCP/IP or lwIP in the raw Ethernet client
+
+Test Frame:
+Source MAC: 92:97:36:55:fa:69
+Destination MAC: ff:ff:ff:ff:ff:ff
+EtherType: 0x88A4
+Frame length: 60 bytes
+Payload: SEL4_ECAT_RAW_TEST
+
+Observed Results:
+- Custom Protection Domain booted successfully
+- Ethernet frame submitted through sDDF TX queue
+- QEMU captured the transmitted frame
+- tcpdump verified EtherType 0x88A4
+- Payload verified in the captured frame
+
+Boot Image SHA256:
+427f78347c770d5445311d83b800f2526d7d200b0b24f3d7ac1b1e52eb5f627d
+
+PCAP SHA256:
+8e9303d92f49855124fa5e28509814f6468df59ff089fd6310977ade8fae3062
+
+Conclusion:
+Raw Layer-2 Ethernet transmission from a custom seL4
+Protection Domain through sDDF and the VirtIO-MMIO
+driver was successfully demonstrated in QEMU.
+
+Limitations:
+- Test payload is not a valid EtherCAT datagram.
+- No EtherCAT slave response was tested.
+- No physical Ethernet hardware was used.
+- No real-time networking guarantees were measured.
