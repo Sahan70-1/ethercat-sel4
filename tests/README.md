@@ -10,7 +10,7 @@ independent. Historical folder numbers are retained to preserve existing links.
 | 3 — Virtual Ethernet | [02-virtual-ethernet](02-virtual-ethernet/README.md) | README observations; no separate saved capture |
 | 4 — SOEM Linux transmission | [03-soem-network](03-soem-network/README.md) | [Saved output and capture](../results/03-soem-network/README.md) |
 | 5A — SOEM interface audit | [05a-soem-interface](05a-soem-interface/README.md) | [Cloud checks](../results/05a-soem-interface/README.md); student WSL source inspection, build, adapter enumeration and host demos recorded; 5A scope complete |
-| 5B — Linux transport, first milestone | [05b-linux-transport](05b-linux-transport/README.md) | [Cloud synthetic tests](../results/05b-linux-transport/README.md); WSL original suites and adapted veth TX passed; veth RX pending |
+| 5B — Linux transport, first milestone | [05b-linux-transport](05b-linux-transport/README.md) | [Cloud synthetic tests](../results/05b-linux-transport/README.md); WSL 3/3 local suites, adapted veth TX and synthetic veth RX passed; Linux scope complete |
 
 Experiments 1 and 2 share one folder. Consequently Experiment 4 is in a folder
 starting with `03`. It is present; it does not need duplicate source files.
@@ -21,5 +21,7 @@ The separate seL4 track lives under `sel4/`: 00 boot, 01 notifications,
 Each directory contains its own README and points to `results/sel4/`.
 These provide foundations for the port, not an integrated SOEM/sDDF driver.
 
-For the next practical session, run the
+To reproduce the completed Linux milestone, use the
 [5B WSL transport checks](05b-linux-transport/README.md).
+The next integration gate is standalone sDDF VirtIO-net TX/RX in QEMU;
+see the [5B completion and next steps](../docs/experiment-05b-linux-transport.md#completion-and-next-integration-gate).

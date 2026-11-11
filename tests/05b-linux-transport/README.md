@@ -63,38 +63,23 @@ response is claimed. Frame sizes here are transport-capacity tests, not claims
 that every tested size is a valid on-wire EtherCAT frame. This milestone has
 not tested VLANs, FCS/padding conventions, redundancy or replay protection.
 
-## Next practical gate
+## Recorded outcome and next integration gate
 
-The student repeated the original two ordinary suites successfully; see [WSL evidence](../../results/05b-linux-transport/wsl-results.md).
-The adapted `simple_ng` subsequently sent frames over WSL veth, captured by
-tcpdump; bytes matched the historical Experiment 4 capture. The receive path
-over veth still needs the dedicated mock-reply check below.
-Use fresh output files; no slaves found is not successful slave discovery.
-Cloud AF_PACKET creation currently returns EPERM, so this real Linux network
-path is unrun here. Then address remaining OSAL/lifecycle and Microkit wait
-scheduling design before sDDF integration.
+The first Linux milestone passed: the student ran all three local suites,
+captured adapted `simple_ng` TX over veth, and received the dedicated mock
+reply with payload 0x0002/WKC=2 and probe exit 0. See
+[WSL evidence](../../results/05b-linux-transport/wsl-results.md).
+Cloud AF_PACKET creation returns EPERM, so raw veth exchange is student-tested
+only. The automated runner itself uses local socketpairs and does not test veth.
+
+Next is standalone sDDF VirtIO-net TX/RX in QEMU before connecting SOEM.
+OSAL/lifecycle, buffer ownership and Microkit wait scheduling remain to be
+implemented and tested. Real slaves and physical timing remain later gates.
 
 [Design and limitations](../../docs/experiment-05b-linux-transport.md).
 [Cloud results](../../results/05b-linux-transport/README.md).
 
-## Guided veth prerequisite check (next student step)
-
-Before sending frames, run in WSL and send the output:
-
-```sh
-ip -d link show ecat_tx
-ip -d link show ecat_rx
-command -v tcpdump
-ls -l /tmp/ethercat-05b.wXt9sH/build/soem/samples/simple_ng/simple_ng
-```
-
-This inspects existing interfaces and checks the newly adapted binary. It does
-not recreate interfaces, change link state or send frames. The veth pair should
-be linked to each other and administratively UP before capture. Do not use the
-old `~/FYP/deps/SOEM/build/...` binary for the adapted regression. If temporary
-outputs were deleted, rerun the tests and use the new printed directory.
-
-## Guided veth RX check — synthetic reply, not a slave
+## Reproduce from Windows: WSL login, local tests and veth RX
 
 The responder accepts only the probe's single BRD read with zero initial
 payload/WKC. It preserves the index and returns fabricated payload 0x0002 and
@@ -103,33 +88,88 @@ Use only the isolated veth pair. The probe checks both data and WKC and exits
 1 on a missing/mismatched response. Its timeout is a functional limit, not a
 performance measurement.
 
-Prepare from the project root after updating the 5B branch:
+1. Open Windows PowerShell (Terminal 1) and enter WSL:
 
-```sh
-source ~/tools/cmake-venv/bin/activate
-cmake -S tests/05b-linux-transport -B /tmp/ethercat-05b.wXt9sH/build
-cmake --build /tmp/ethercat-05b.wXt9sH/build --target veth_probe -j 2
-ctest --test-dir /tmp/ethercat-05b.wXt9sH/build -R mock_peer_and_probe --output-on-failure
-```
+   ```powershell
+   wsl -u sahan
+   ```
 
-If the temporary build no longer exists, run `run.sh` again and substitute its
-new output directory. Do not configure a fresh build without SOEM_SOURCE.
+2. Open the project and check for local changes:
 
-Terminal 1 (wait for `MOCK READY`):
+   ```sh
+   cd ~/FYP/ethercat-sel4
+   git status --short
+   ```
 
-```sh
-sudo python3 ~/FYP/ethercat-sel4/tests/05b-linux-transport/mock_veth_peer.py ecat_rx
-```
+   If changes are listed, resolve them before switching or pulling. Otherwise:
 
-Terminal 2, within 120 seconds:
+   ```sh
+   git fetch origin
+   git switch experiment-05b-linux-transport
+   git pull --ff-only
+   source ~/tools/cmake-venv/bin/activate
+   cmake --version
+   ```
 
-```sh
-sudo /tmp/ethercat-05b.wXt9sH/build/veth_probe ecat_tx
-echo "Probe exit status: $?"
-```
+3. Inspect the veth pair:
 
-Expected, not yet observed on WSL: `MOCK SENT` on terminal 1, and the probe's
-PASS line with synthetic payload 0x0002/WKC=2 and exit 0 on terminal 2.
-Send both outputs. This proves only a synthetic functional exchange if it
-passes. Rootless tests of the same C probe use `--test-fd` and AF_UNIX sockets;
+   ```sh
+   ip -d link show ecat_tx
+   ip -d link show ecat_rx
+   ```
+
+   Existing interfaces must be reciprocal veth peers. If only one exists or
+   the pair is unexpected, stop and inspect before changing anything.
+   Only if both interfaces are absent, create them:
+
+   ```sh
+   sudo ip link add ecat_tx type veth peer name ecat_rx
+   ```
+
+   Bring the verified pair up:
+
+   ```sh
+   sudo ip link set ecat_tx up
+   sudo ip link set ecat_rx up
+   ```
+
+4. Build in a fresh directory and run all local tests in Terminal 1:
+
+   ```sh
+   soem_05b_session=$(mktemp -d /tmp/ethercat-05b-session.XXXXXX)
+   bash ~/FYP/ethercat-sel4/tests/05b-linux-transport/run.sh \
+     ~/FYP/deps/SOEM "$soem_05b_session/run"
+   ```
+
+   Expect 3/3 suites passing. Keep Terminal 1 open: it holds the directory
+   variable. Generated sources and configure/build/test logs remain under
+   that fresh directory; no old `/tmp` path is required.
+
+5. Open a second PowerShell tab (Terminal 2), enter WSL, then start the peer:
+
+   ```powershell
+   wsl -u sahan
+   ```
+
+   ```sh
+   sudo python3 ~/FYP/ethercat-sel4/tests/05b-linux-transport/mock_veth_peer.py ecat_rx
+   ```
+
+   Wait for `MOCK READY` and leave Terminal 2 running.
+
+6. In Terminal 1, within 120 seconds, run:
+
+   ```sh
+   sudo "$soem_05b_session/run/build/veth_probe" ecat_tx
+   echo "Probe exit status: $?"
+   ```
+
+Expected and observed on student WSL: `MOCK SENT` in Terminal 2, and the probe's
+PASS line with synthetic payload 0x0002/WKC=2 and exit 0 in Terminal 1.
+If the responder times out, restart it before repeating the probe. Stop at
+other errors and retain the output for investigation. Record both terminal
+outputs and the local test summary for each new run; an expectation is not
+evidence of that run's success.
+
+Rootless tests of the same C probe use `--test-fd` and AF_UNIX sockets;
 that option is a test injection path, not a NIC interface.

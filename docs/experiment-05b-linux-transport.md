@@ -74,10 +74,13 @@ a future platform must preserve that relationship or redesign both together.
 2. Adapted actual SOEM library: tested with explicit mocks and socketpair peers.
 3. Adapted SOEM sample: built; usage/adapter enumeration checked separately.
 4. AF_PACKET/veth TX: observed on student WSL; three captured frames match
-   historical Experiment 4 bytes. Synthetic RX over veth remains pending; cloud
-   raw-socket creation is denied.
-5. Student WSL ordinary reproduction: both suites passed; see the separate
-   [student transcript](../results/05b-linux-transport/wsl-results.md). WSL sanitizer run is unrun.
+   historical Experiment 4 bytes. Synthetic RX over veth also passed on WSL:
+   the mock sent a 30-byte reply with index 1 and WKC=2; SOEM accepted payload
+   0x0002/WKC=2 and the probe exited 0. Cloud raw-socket creation is denied.
+5. Student WSL ordinary reproduction: all three suites passed in the latest
+   screenshot; see the separate
+   [student evidence](../results/05b-linux-transport/wsl-results.md).
+   WSL sanitizer run is unrun; cloud sanitizer suites passed.
 6. Microkit/sDDF integration, physical slaves and timing: future work.
 
 Tests exercise failure cases as well as success, retain assertion checks even
@@ -103,3 +106,20 @@ Python response filter. The filter only accepts a fixed single BRD request;
 it is not a general EtherCAT parser or slave emulator. The responder returns
 one fabricated reply and exits, with a bounded wait for the probe request.
 Student raw TX evidence is in [the WSL record](../results/05b-linux-transport/wsl-results.md).
+
+## Completion and next integration gate
+
+The first 5B milestone is complete for the single-port Linux scope above.
+The latest student screenshot supplies evidence of a functional synthetic
+exchange through AF_PACKET/veth, in addition to local tests. Its visible
+output was [transcribed separately](../results/05b-linux-transport/wsl-veth-rx.txt);
+it is not a full build log or an independently executed cloud test.
+
+5C has not started. Begin by pinning compatible Microkit/sDDF versions and
+building and booting an existing sDDF VirtIO-net example in QEMU. Establish
+raw Ethernet TX/RX before connecting SOEM; demonstrate buffer reclamation and
+that waiting lets the driver run. Then implement the sDDF transport endpoint
+and remaining OSAL/lifecycle services, with timer and scheduling tests.
+Use the existing VirtIO network driver for this step. A new hardware NIC
+driver is not required to begin. Real slaves, cyclic data and physical timing
+remain later validation gates.

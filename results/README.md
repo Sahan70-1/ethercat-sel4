@@ -20,6 +20,8 @@ Existing logs are historical evidence. Reanalysis of those logs is not a new
 hardware or QEMU run. Keep future runs separate and record their environment.
 
 - EtherCAT experiment 5B, first Linux milestone: [cloud results](05b-linux-transport/README.md).
-  Two suites pass with synthetic peers on cloud and [student WSL](05b-linux-transport/wsl-results.md).
-  Sanitizer checks passed on cloud. Adapted veth TX was observed on WSL;
-  synthetic-response RX over veth remains pending.
+  The expanded three-suite runner passes with synthetic peers on cloud and
+  [student WSL](05b-linux-transport/wsl-results.md). Sanitizer checks passed
+  on cloud. Adapted veth TX and synthetic-response RX over veth passed on WSL;
+  the probe checked payload 0x0002/WKC=2 and exited 0. This completes the
+  tested Linux milestone; seL4/sDDF integration remains unrun.

@@ -1,8 +1,10 @@
-# Experiment 5B — cloud evidence
+# Experiment 5B — evidence index and cloud results
 
 Scope: first single-port Linux transport milestone. Student WSL ordinary
 tests also passed: see [WSL evidence](wsl-results.md). Adapted AF_PACKET/veth
-TX is observed on WSL; synthetic-response RX remains pending. Existing experiments are preserved.
+TX and synthetic-response RX passed on WSL. The latter checked payload
+0x0002/WKC=2 and probe exit 0. The tested Linux milestone is complete;
+seL4/sDDF integration remains future work. Existing experiments are preserved.
 
 Host: Debian 13 x86-64; GCC 14.2.0; CMake 4.4.4; Python 3.12.14.
 SOEM source: `49fc34923b973c17700592319159af22157350c9`.
@@ -31,7 +33,7 @@ ordinary logs are from that final run. Sanitizer tests already include it.
 | AddressSanitizer + UndefinedBehaviorSanitizer | PASS, 2/2 suites; no diagnostics | [Sanitized CTest transcript](cloud-sanitizer-tests.txt) |
 | Adapted `simple_ng` usage/adapter enumeration | PASS; expected usage exit 1 | [Sample transcript](cloud-sample-usage.txt) |
 | AF_PACKET socket creation | BLOCKED: PermissionError, errno 1, Operation not permitted | Read-only socket-create probe; no frames sent |
-| Cloud raw veth/NIC checks, slaves, seL4/sDDF, physical timing | UNRUN | Student veth TX is recorded separately |
+| Cloud raw veth/NIC checks, slaves, seL4/sDDF, physical timing | UNRUN | Student veth TX and synthetic RX are recorded separately |
 
 ## Problems found and resolved during development
 
@@ -51,8 +53,9 @@ upstream dependency files were changed. Setup repeatability was exercised
 using fresh ordinary and sanitizer output directories.
 
 The tests cover synthetic reply matching and WKC behavior; they cannot prove
-slave compatibility or real network performance. The first Linux milestone is
-reviewable, while the real raw-network validation gate remains open.
+slave compatibility or real network performance. The student's later veth
+checks close the Linux raw-network functional gate for this first milestone;
+physical NIC/slave validation and seL4 integration remain open.
 
 
 ## Veth RX helper validation (later addition)
@@ -72,4 +75,8 @@ Trailing whitespace in the two helper CTest transcripts was normalized;
 all output text and results are retained.
 
 The student also built the RX helper and passed its selected local CTest suite
-on WSL: [helper transcript](wsl-rx-helper-tests.txt). Veth RX remains pending.
+on WSL: [helper transcript](wsl-rx-helper-tests.txt). A later screenshot shows
+all 3/3 local suites passing, then the AF_PACKET/veth probe accepting the
+synthetic reply with exit 0. See the [screenshot transcription](wsl-veth-rx.txt)
+and [WSL account](wsl-results.md). The screenshot is student-supplied evidence,
+not a cloud execution or a complete build transcript.

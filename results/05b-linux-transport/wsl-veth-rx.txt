@@ -1,0 +1,40 @@
+Experiment 5B: student WSL full local suite and synthetic veth RX
+
+Provenance: selected visible output manually transcribed from the two-terminal
+screenshot supplied by the student in chat on 2026-11-11. This is not a raw
+terminal log or a cloud execution. Shell prompts and the sudo password prompt
+are omitted. Earlier test output is cropped in the screenshot. The full build
+directory, Git HEAD, tool versions and execution timestamp are not visible.
+
+Terminal 1: visible end of local runner output
+
+3: Ran 5 tests in 0.507s
+3:
+3: OK
+3/3 Test #3: mock_peer_and_probe ..............   Passed    0.57 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.62 sec
+PASS: 5B local transport and adapted SOEM synthetic-response checks
+NOT TESTED: AF_PACKET/veth, NIC/slave exchange, seL4/sDDF, hardware timing
+
+Terminal 2: responder command and visible output
+
+sudo python3 ~/FYP/ethercat-sel4/tests/05b-linux-transport/mock_veth_peer.py ecat_rx
+MOCK READY on ecat_rx; waiting up to 120 seconds
+MOCK SENT: index=1, bytes=30, synthetic WKC=2
+No real slave is present or emulated.
+
+Terminal 1: probe commands and visible output
+
+sudo "$soem_05b_session/run/build/veth_probe" ecat_tx
+echo "Probe exit status: $?"
+PROBE: synthetic BRD test, index=1, frame_bytes=30
+PROBE: received WKC=2 (expected synthetic value: 2)
+PASS: matched response with synthetic payload 0x0002 and WKC=2
+This is not slave discovery or a real EtherCAT slave response.
+Probe exit status: 0
+
+The runner's NOT TESTED line applies to its local socketpair tests. The separate
+probe/responder commands above exercised AF_PACKET/veth with a fabricated reply.
