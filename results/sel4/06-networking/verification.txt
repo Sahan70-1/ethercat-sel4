@@ -1,0 +1,39 @@
+Experiment 06 — sDDF Ethernet Networking
+Date: 2026-11-11
+
+Environment:
+Host: MacBook Air M1
+VM: OrbStack Ubuntu ARM64
+QEMU: 8.2.2
+Microkit SDK: 2.4.0
+Target: qemu_virt_aarch64
+Network driver: sDDF VirtIO-MMIO
+
+Build:
+Status: SUCCESS
+Image: sDDF examples/echo_server/build/loader.img
+Size: approximately 7.7 MiB
+SHA256: b269fd6cebeb141022e2a0a2c40547d3b94c5e5852b533982b15a648ea093b4a
+
+Runtime:
+Client0 DHCP: 10.0.2.16
+Client1 DHCP: 10.0.2.15
+
+Network tests:
+Client0 UDP echo: PASS (host port 1238)
+Client0 TCP echo: PASS (host port 1239)
+Client1 UDP echo: PASS (host port 1235)
+Client1 TCP echo: PASS (host port 1236)
+
+Conclusion:
+Basic bidirectional UDP/TCP networking was verified
+using isolated seL4 Microkit clients, sDDF networking,
+VirtIO-MMIO and QEMU.
+
+Limitations:
+Raw EtherCAT Ethernet frames not yet tested.
+No network latency or jitter measurements performed.
+No physical NIC or EtherCAT slaves used.
+
+sDDF commit: ae5086dff63f5a23785a26febe3d7fc8fe66c062
+Acacia commit: ad9dad4d58b1491372d15325ed075ca9f5a85901
