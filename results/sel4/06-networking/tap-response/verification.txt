@@ -1,0 +1,41 @@
+EXPERIMENT 06D — BIDIRECTIONAL ETHERCAT RESPONSE HANDLING
+Date: 2026-11-11
+Status: SUCCESS — SIMULATED ENDPOINT
+
+Environment:
+- seL4 Microkernel
+- Microkit SDK 2.4.0
+- sDDF networking subsystem
+- QEMU ARM64 VirtIO-MMIO
+- Linux TAP interface: ecat-tap0
+- Python raw Ethernet test responder
+
+Request:
+- EtherType: 0x88A4
+- Command: BRD (0x07)
+- Register: AL Status (0x0130)
+- Data length: 2 bytes
+
+Simulated Response:
+- AL Status: 0x0002
+- Working Counter: 1
+
+Observed Guest Output:
+RAW_ECAT: client initialized
+RAW_ECAT: queued EtherCAT BRD AL-status frame
+ECAT_RX: AL Status=2 WKC=1
+ECAT_RX: PASS simulated response validated
+
+Conclusion:
+Bidirectional EtherCAT-format frame communication
+between a seL4 client PD and a Linux-based simulated
+responder was demonstrated successfully.
+
+The seL4 client received the response and validated
+the expected datagram fields, AL Status and WKC.
+
+Limitations:
+- No physical EtherCAT slave was used.
+- WKC and AL Status were simulated.
+- Complete SOEM master functionality was not tested.
+- No real-time timing guarantees were established.

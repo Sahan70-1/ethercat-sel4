@@ -1,0 +1,138 @@
+#
+# Copyright 2022, UNSW
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
+# This Makefile is copied into the build directory
+# and operated on from there.
+#
+
+
+MICROKIT_TOOL ?= $(MICROKIT_SDK)/bin/microkit
+ECHO_SERVER:=${SDDF}/examples/echo_server
+
+SUPPORTED_BOARDS := \
+			imx8mm_evk \
+			imx8mp_evk \
+			imx8mq_evk \
+			imx8mp_iotgate \
+			kria_k26 \
+			maaxboard \
+			odroidc2 \
+			odroidc4 \
+			qemu_virt_aarch64 \
+			qemu_virt_riscv64 \
+			rock3b \
+			rockpro64 \
+			star64 \
+			x86_64_generic \
+			rpi4b_1gb \
+			zcu102
+
+TOOLCHAIN ?= clang
+MICROKIT_CONFIG ?= debug
+SYSTEM_FILE := echo_server.system
+IMAGE_FILE := loader.img
+REPORT_FILE := report.txt
+
+SDDF_CUSTOM_LIBC := 1
+include ${SDDF}/tools/make/sddf.mk
+
+ECHO_SERVER := ${SDDF}/examples/echo_server
+METAPROGRAM := $(RAW_CLIENT_DIR)/meta.py
+
+vpath %.c ${SDDF} ${ECHO_SERVER} ${RAW_CLIENT_DIR}
+
+IMAGES := eth_driver.elf echo.elf raw_client.elf benchmark.elf idle.elf \
+	  network_virt_rx.elf network_virt_tx.elf network_copy.elf \
+	  timer_driver.elf serial_driver.elf serial_virt_tx.elf
+
+
+CFLAGS += \
+	  -Wno-unused-function \
+	  -I$(BOARD_DIR)/include \
+	  -I$(SDDF)/include/microkit \
+	  -I$(SDDF)/include \
+	  -I${ECHO_INCLUDE}/lwip \
+	  -I$(LWIPDIR)/include \
+	  -I$(LWIPDIR)/include/ipv4 \
+	  -I $(ECHO_SERVER)/include \
+	  -MP
+
+
+# Suppress warning from lwIP
+CFLAGS += -Wno-tautological-constant-out-of-range-compare
+
+LDFLAGS := -L$(BOARD_DIR)/lib
+LIBS := --start-group -lmicrokit -Tmicrokit.ld libsddf_util_debug.a \
+	--end-group
+
+ECHO_OBJS := echo.o utilization_socket.o \
+	     udp_echo_socket.o tcp_echo_socket.o
+
+DEPS := $(ECHO_OBJS:.o=.d)
+
+all: loader.img
+
+echo.elf: $(ECHO_OBJS) libsddf_util.a lib_sddf_lwip_echo.a
+	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@
+
+raw_client.elf: raw_client.o libsddf_util.a
+	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@
+
+# Need to build libsddf_util_debug.a because it's included in LIBS
+# for the unimplemented libc dependencies
+${IMAGES}: libsddf_util_debug.a
+
+$(SYSTEM_FILE): $(METAPROGRAM) $(IMAGES) $(DTB)
+ifneq ($(strip $(DTS)),)
+	$(PYTHON)\
+	    $(METAPROGRAM) --sddf $(SDDF) --board $(MICROKIT_BOARD) \
+	    --dtb $(DTB) --output . --sdf $(SYSTEM_FILE) --objcopy $(OBJCOPY) --smp $(SMP_CONFIG) \
+		$(if $(BENCH_PMU_EVENTS), --bench_pmu_events $(BENCH_PMU_EVENTS))
+else
+	$(PYTHON)\
+	    $(METAPROGRAM) --sddf $(SDDF) --board $(MICROKIT_BOARD) \
+	    --output . --sdf $(SYSTEM_FILE) --objcopy $(OBJCOPY) --smp $(SMP_CONFIG) \
+		$(if $(BENCH_PMU_EVENTS), --bench_pmu_events $(BENCH_PMU_EVENTS))
+endif
+	$(OBJCOPY) --update-section .device_resources=serial_driver_device_resources.data serial_driver.elf
+	$(OBJCOPY) --update-section .serial_driver_config=serial_driver_serial_driver_config.data serial_driver.elf
+	$(OBJCOPY) --update-section .serial_virt_tx_config=serial_virt_tx_serial_virt_tx_config.data serial_virt_tx.elf
+	$(OBJCOPY) --update-section .device_resources=eth_driver_device_resources.data eth_driver.elf
+	$(OBJCOPY) --update-section .net_driver_config=eth_driver_net_driver_config.data eth_driver.elf
+	$(OBJCOPY) --update-section .net_virt_rx_config=network_virt_rx_net_virt_rx_config.data network_virt_rx.elf
+	$(OBJCOPY) --update-section .net_virt_tx_config=network_virt_tx_net_virt_tx_config.data network_virt_tx.elf
+	$(OBJCOPY) --update-section .net_copy_config=network_copy0_net_copy_config.data network_copy.elf network_copy0.elf
+	$(OBJCOPY) --update-section .device_resources=timer_driver_device_resources.data timer_driver.elf
+	$(OBJCOPY) --update-section .timer_client_config=echo0_timer_client_config.data echo0.elf
+	$(OBJCOPY) --update-section .net_client_config=echo0_net_client_config.data echo0.elf
+	$(OBJCOPY) --update-section .serial_client_config=echo0_serial_client_config.data echo0.elf
+	$(OBJCOPY) --update-section .timer_client_config=echo1_timer_client_config.data echo1.elf
+	$(OBJCOPY) --update-section .net_client_config=echo1_net_client_config.data echo1.elf
+	$(OBJCOPY) --update-section .serial_client_config=echo1_serial_client_config.data echo1.elf
+	$(OBJCOPY) --update-section .lib_sddf_lwip_config=echo1_lib_sddf_lwip_config.data echo1.elf
+	touch $@
+
+
+${IMAGE_FILE} $(REPORT_FILE): $(IMAGES) $(SYSTEM_FILE)
+	$(MICROKIT_TOOL) $(SYSTEM_FILE) --search-path $(BUILD_DIR) \
+	--board $(MICROKIT_BOARD) --config $(MICROKIT_CONFIG) \
+	-o $(IMAGE_FILE) -r $(REPORT_FILE)
+
+qemu: $(IMAGE_FILE)
+	$(QEMU) $(QEMU_ARCH_ARGS) $(QEMU_NET_ARGS) \
+		-nographic \
+		-netdev tap,id=netdev0,ifname=ecat-tap0,script=no,downscript=no \
+		-global virtio-mmio.force-legacy=false \
+		-object filter-dump,id=twoway,netdev=netdev0,file=$(BUILD_DIR)/response-validation.pcap \
+		-d guest_errors -smp 4
+
+clean::
+	${RM} -f *.elf .depend* $
+	find . -name \*.[do] |xargs --no-run-if-empty rm
+
+clobber:: clean
+	rm -f ${IMAGE_FILE} ${REPORT_FILE}
+
+-include $(DEPS)
